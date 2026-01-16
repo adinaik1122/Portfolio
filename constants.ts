@@ -2,7 +2,7 @@ import { ProjectCategory, ExperienceItem, Skill } from './types';
 import { Mail, Linkedin, Globe, Video } from 'lucide-react';
 
 export const HERO_DATA = {
-  name: "Aditya Naik",
+  name: "Aditya Rahul Naik",
   title: "Digital Artist | Motion Graphics Designer | Video Editor",
   tagline: "Crafting visual stories through motion, compositing, and design."
 };
