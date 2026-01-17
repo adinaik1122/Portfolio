@@ -2,44 +2,69 @@ import { ProjectCategory, ExperienceItem, Skill } from './types';
 import { Mail, Linkedin, Globe, Video } from 'lucide-react';
 
 export const HERO_DATA = {
-  name: "Aditya Rahul Naik",
+  name: "Aditya Naik",
   title: "Digital Artist | Motion Graphics Designer | Video Editor",
   tagline: "Crafting visual stories through motion, compositing, and design."
 };
 
+export interface ProjectItem {
+  id: string;
+  type: 'video' | 'playlist';
+  videoId: string;
+  // Add this line below:
+  platform?: 'youtube' | 'vimeo'; 
+}
+
 export const PROJECTS_DATA: ProjectCategory[] = [
+ 
   {
     title: "Just For Hearts",
     projects: [
       { id: 'jfh-1', type: 'video', videoId: 'Nouxmk38iLc' },
       { id: 'jfh-2', type: 'video', videoId: 'DuieK8O7juQ' },
-      { id: 'jfh-3', type: 'video', videoId: 'JSrF89UKFJU' }, // Removed timestamp
-      { id: 'jfh-4', type: 'video', videoId: 'fVVjE-89XZI' }, // Removed timestamp
+      { id: 'jfh-3', type: 'video', videoId: 'JSrF89UKFJU' },
+      { id: 'jfh-4', type: 'video', videoId: 'fVVjE-89XZI' },
     ]
   },
   {
     title: "Sheffield Sports Med",
     projects: [
       { id: 'ssm-1', type: 'video', videoId: 'vHW50uv6H4E' },
-      { id: 'ssm-2', type: 'video', videoId: 'ouuUTSgHs78' }, // Removed timestamp
+      { id: 'ssm-2', type: 'video', videoId: 'ouuUTSgHs78' },
     ]
   },
   {
-    title: "Personal Editing",
+    title: "Wedding Invitations",
     projects: [
-      { id: 'pe-1', type: 'video', videoId: 'bxhsznQp8HQ' },
+      { id: 'wedding-1', type: 'video', videoId: 'B2ELn4C15_w' }, // Fixed duplicate ID
+      { id: 'wedding-2', type: 'video', videoId: 'HRBuXzK7nB0' }, // Fixed duplicate ID
     ]
   },
   {
     title: "Motion Graphics",
     projects: [
-      { id: 'mg-1', type: 'playlist', videoId: 'PLLpHUxGA-WgZlUoCAj8tVJxFy_n5OBwCl' },
+      { id: 'mg-1', type: 'video', videoId: 'tg03Igge8qg' },
+      { id: 'mg-2', type: 'playlist', videoId: 'PLLpHUxGA-WgZlUoCAj8tVJxFy_n5OBwCl' },
+    ]
+  },
+   {
+    title: "Compositing", // Fixed spelling (was COmpositing)
+    projects: [
+      { id: 'comp-1', type: 'video', videoId: 'wWRJXqXTBLc' },
+    ]
+  },
+
+  {
+    title: "Travel Documentary/Vlogs", // Fixed spelling (was Documentry)
+    projects: [
+      { id: 'travel-1', type: 'video', videoId: 'qSUIoV-E32Y' },
+      { id: 'travel-2', type: 'video', videoId: '5GA_6uRFdIM' }
     ]
   },
   {
-    title: "Travel",
+    title: "Personal Editing",
     projects: [
-      { id: 'travel-1', type: 'video', videoId: 'qSUIoV-E32Y' },
+      { id: 'personal-1', type: 'video', videoId: 'bxhsznQp8HQ' }, // Fixed duplicate ID
     ]
   }
 ];
@@ -105,7 +130,7 @@ export const SOCIAL_LINKS = [
   },
   { 
     label: "LinkedIn", 
-    href: "https://www.linkedin.com/in/aditya-naik11", // Assuming valid URL structure 
+    href: "https://www.linkedin.com/in/aditya-naik11", 
     icon: Linkedin,
     value: "aditya-naik11"
   },
