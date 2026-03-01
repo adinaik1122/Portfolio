@@ -30,6 +30,8 @@ const Navbar: React.FC = () => {
 
   return (
     <nav
+      role="navigation"
+      aria-label="Main navigation"
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         isScrolled || isMenuOpen
           ? "bg-white/95 backdrop-blur-md  py-4 md:py-4"
@@ -37,20 +39,23 @@ const Navbar: React.FC = () => {
       }`}
     >
       <div className="max-w-7xl mx-auto px-6 flex justify-between items-center">
-        <div
+        <button
           className="font-serif font-bold text-xl md:text-2xl cursor-pointer tracking-tight z-50"
           onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+          aria-label="Go to top of page"
         >
           AN.
-        </div>
+        </button>
 
         {/* Desktop Menu */}
-        <div className="hidden md:flex space-x-8">
+        <div className="hidden md:flex space-x-8" role="menubar">
           {navLinks.map((link) => (
             <button
               key={link.name}
               onClick={() => scrollToSection(link.id)}
               className="text-sm font-medium text-neutral-600 hover:text-neutral-900 transition-colors uppercase tracking-widest"
+              role="menuitem"
+              aria-label={`Navigate to ${link.name} section`}
             >
               {link.name}
             </button>
@@ -59,9 +64,11 @@ const Navbar: React.FC = () => {
 
         {/* Mobile Toggle */}
         <button
-          className="md:hidden p-2 -mr-2 text-neutral-800 z-50 relative focus:outline-none"
+          className="md:hidden p-2 -mr-2 text-neutral-800 z-50 relative focus:outline-none focus:ring-2 focus:ring-neutral-900 focus:ring-offset-2 rounded"
           onClick={() => setIsMenuOpen(!isMenuOpen)}
-          aria-label="Toggle Menu"
+          aria-label={isMenuOpen ? "Close navigation menu" : "Open navigation menu"}
+          aria-expanded={isMenuOpen}
+          aria-controls="mobile-menu"
         >
           <div className="w-6 h-3.5 relative">
             <span
@@ -85,6 +92,9 @@ const Navbar: React.FC = () => {
 
       {/* Mobile Menu */}
       <div
+        id="mobile-menu"
+        role="menu"
+        aria-hidden={!isMenuOpen}
         className={`md:hidden absolute top-full left-0 right-0 bg-white/95 backdrop-blur-xl shadow-xl border-t border-neutral-100 transition-all duration-300 ease-in-out origin-top ${
           isMenuOpen
             ? "opacity-100 scale-y-100 translate-y-0"
@@ -96,7 +106,9 @@ const Navbar: React.FC = () => {
             <button
               key={link.name}
               onClick={() => scrollToSection(link.id)}
-              className="text-left text-lg font-medium text-neutral-800 py-3 border-b border-neutral-50 last:border-0 hover:pl-2 transition-all active:bg-neutral-50"
+              className="text-left text-lg font-medium text-neutral-800 py-3 border-b border-neutral-50 last:border-0 hover:pl-2 transition-all active:bg-neutral-50 focus:outline-none focus:ring-2 focus:ring-neutral-900 focus:ring-inset rounded"
+              role="menuitem"
+              aria-label={`Navigate to ${link.name} section`}
             >
               {link.name}
             </button>

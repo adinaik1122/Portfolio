@@ -1,6 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App';
+import './index.css';
+// import { analytics } from './utils/analytics';
+
+// Initialize analytics (uncomment when you have a tracking ID)
+// analytics.init(import.meta.env.VITE_GA_TRACKING_ID);
 
 const rootElement = document.getElementById('root');
 if (!rootElement) {

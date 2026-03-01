@@ -1,6 +1,8 @@
 import React from 'react';
 import { PROJECTS_DATA } from '../constants';
+import { ANIMATION_DELAYS } from '../constants/animations';
 import FadeIn from './FadeIn';
+import ProjectCard from './ProjectCard';
 
 const Projects: React.FC = () => {
   return (
@@ -12,14 +14,13 @@ const Projects: React.FC = () => {
               <h2 className="font-serif text-3xl md:text-4xl text-neutral-900">Selected Works</h2>
               <p className="text-neutral-500 mt-2">A curated collection of motion graphics and editing projects.</p>
             </div>
-            {/* Optional: Add a subtle decoration or link here if needed */}
           </div>
         </FadeIn>
 
         <div className="space-y-24">
           {PROJECTS_DATA.map((category, catIndex) => (
             <div key={catIndex}>
-              <FadeIn delay={100}>
+              <FadeIn delay={ANIMATION_DELAYS.PROJECTS_CATEGORY}>
                 <h3 className="text-xl font-medium tracking-wide uppercase text-neutral-800 mb-8 pl-4 border-l-2 border-neutral-900">
                   {category.title}
                 </h3>
@@ -27,24 +28,17 @@ const Projects: React.FC = () => {
               
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12">
                 {category.projects.map((project, projIndex) => {
+                  // Use YouTube nocookie domain for privacy and better embedding
                   const src = project.type === 'playlist'
-                    ? `https://www.youtube.com/embed/videoseries?list=${project.videoId.trim()}`
-                    : `https://www.youtube.com/embed/${project.videoId.trim()}`;
+                    ? `https://www.youtube-nocookie.com/embed/videoseries?list=${project.videoId.trim()}&rel=0&modestbranding=1`
+                    : `https://www.youtube-nocookie.com/embed/${project.videoId.trim()}?rel=0&modestbranding=1`;
 
                   return (
-                    <FadeIn key={project.id} delay={projIndex * 150} className="w-full">
-                      <div className="group relative w-full aspect-video bg-neutral-100 overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300">
-                        <iframe
-                          src={src}
-                          title={`Project video ${projIndex + 1}`}
-                          className="w-full h-full"
-                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                          referrerPolicy="strict-origin-when-cross-origin"
-                          allowFullScreen
-                          loading="lazy"
-                        ></iframe>
-                        {/* Overlay wrapper for potential extra info if needed, keeping it clean for now */}
-                      </div>
+                    <FadeIn key={project.id} delay={projIndex * ANIMATION_DELAYS.PROJECTS_VIDEO_BASE} className="w-full">
+                      <ProjectCard 
+                        src={src} 
+                        title={`${category.title} - Project ${projIndex + 1}`}
+                      />
                     </FadeIn>
                   );
                 })}
@@ -57,4 +51,4 @@ const Projects: React.FC = () => {
   );
 };
 
-export default Projects;
+export default React.memo(Projects);

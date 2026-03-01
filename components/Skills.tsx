@@ -47,4 +47,4 @@ const Skills: React.FC = () => {
   );
 };
 
-export default Skills;
+export default React.memo(Skills);

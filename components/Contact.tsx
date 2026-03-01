@@ -1,9 +1,18 @@
-import React from "react";
+import React, { useRef } from "react";
 import { SOCIAL_LINKS } from "../constants";
+import { ANIMATION_DELAYS } from "../constants/animations";
+import { use3DTilt } from "../hooks/use3DEffect";
 import FadeIn from "./FadeIn";
 import { Download, ArrowUpRight, FileText, CheckCircle2 } from "lucide-react";
 
+/**
+ * Contact Component with 3D card effects
+ * Resume card has subtle 3D tilt on hover
+ */
 const Contact: React.FC = () => {
+  const resumeCardRef = useRef<HTMLDivElement>(null);
+  const transform = use3DTilt(resumeCardRef, 3);
+
   return (
     <section
       id="contact"
@@ -30,12 +39,16 @@ const Contact: React.FC = () => {
               {SOCIAL_LINKS.map((link, index) => {
                 const Icon = link.icon;
                 return (
-                  <FadeIn key={link.label} delay={index * 100 + 200}>
+                  <FadeIn key={link.label} delay={ANIMATION_DELAYS.CONTACT_LINK_BASE + index * 100}>
                     <a
                       href={link.href}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex items-center gap-5 p-4 bg-white border border-neutral-200 rounded-xl hover:border-neutral-900 hover:shadow-md transition-all duration-300 group"
+                      className="flex items-center gap-5 p-4 bg-white border border-neutral-200 rounded-xl hover:border-neutral-900 hover:shadow-md transition-all duration-300 group hover:-translate-y-1"
+                      style={{
+                        transform: 'translateZ(0)', // Enable 3D context
+                        backfaceVisibility: 'hidden', // Smooth animations
+                      }}
                     >
                       <div className="p-3 bg-neutral-100 rounded-full text-neutral-600 group-hover:bg-neutral-900 group-hover:text-white transition-colors">
                         <Icon size={20} />
@@ -59,15 +72,29 @@ const Contact: React.FC = () => {
             </div>
           </div>
 
-          {/* Right Side: Resume / CV Section (White Card Design) */}
+          {/* Right Side: Resume / CV Section with 3D Effect */}
           <div className="order-1 md:order-2 w-full">
-            <FadeIn delay={400} className="h-full">
-              <div className="bg-white p-8 md:p-10 rounded-2xl shadow-sm border border-neutral-100 relative overflow-hidden group max-w-lg mx-auto md:ml-auto">
-                <div className="absolute top-0 right-0 p-6 opacity-5">
+            <FadeIn delay={ANIMATION_DELAYS.CONTACT_RESUME} className="h-full">
+              <div 
+                ref={resumeCardRef}
+                className="bg-white p-8 md:p-10 rounded-2xl shadow-lg border border-neutral-100 relative overflow-hidden group max-w-lg mx-auto md:ml-auto"
+                style={{
+                  transform,
+                  transition: 'transform 0.3s ease-out, box-shadow 0.3s ease-out',
+                  transformStyle: 'preserve-3d',
+                }}
+              >
+                <div 
+                  className="absolute top-0 right-0 p-6 opacity-5"
+                  style={{ transform: 'translateZ(30px)' }}
+                >
                   <FileText size={120} className="text-neutral-900 rotate-12" />
                 </div>
 
-                <div className="relative z-10 flex flex-col space-y-8">
+                <div 
+                  className="relative z-10 flex flex-col space-y-8"
+                  style={{ transform: 'translateZ(20px)' }}
+                >
                   <div>
                     <div className="inline-flex items-center gap-2 px-3 py-1 bg-neutral-100 rounded-full text-xs font-medium text-neutral-600 mb-4">
                       <span className="relative flex h-2 w-2">
@@ -85,7 +112,7 @@ const Contact: React.FC = () => {
                     </p>
                   </div>
 
-                  {/* Resume Meta Data mimicking form fields */}
+                  {/* Resume Meta Data */}
                   <div className="grid grid-cols-2 gap-4">
                     <div className="p-4 rounded-lg bg-neutral-50 border border-neutral-100">
                       <span className="text-[10px] uppercase tracking-wider text-neutral-400 font-semibold block mb-1">
@@ -103,7 +130,6 @@ const Contact: React.FC = () => {
                     </div>
                   </div>
 
-                  {/* UPDATED: Converted Button to Anchor Tag for Link */}
                   <a
                     href="https://drive.google.com/file/d/1oIlhp_N8nIR8NU087_P3tFqOlv7HZpQJ/view?usp=drive_link"
                     target="_blank"
@@ -119,12 +145,21 @@ const Contact: React.FC = () => {
                     <span>Last updated: January 2026</span>
                   </div>
                 </div>
+
+                {/* 3D depth overlay */}
+                <div 
+                  className="absolute inset-0 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                  style={{
+                    background: 'linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(0,0,0,0.05) 100%)',
+                    transform: 'translateZ(40px)',
+                  }}
+                />
               </div>
             </FadeIn>
           </div>
         </div>
 
-        <FadeIn delay={600}>
+        <FadeIn delay={ANIMATION_DELAYS.CONTACT_FOOTER}>
           <div className="mt-24 text-center text-sm text-neutral-400 border-t border-neutral-200 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
             <span>
               © {new Date().getFullYear()} Aditya Naik. All rights reserved.
@@ -139,4 +174,4 @@ const Contact: React.FC = () => {
   );
 };
 
-export default Contact;
+export default React.memo(Contact);

@@ -1,13 +1,21 @@
 import React, { useEffect, useRef, useState } from 'react';
+import { FadeInProps } from '../types/components';
 
-interface FadeInProps {
-  children: React.ReactNode;
-  delay?: number;
-  className?: string;
-  direction?: 'up' | 'none';
-}
-
-const FadeIn: React.FC<FadeInProps> = ({ children, delay = 0, className = '', direction = 'up' }) => {
+/**
+ * FadeIn Component
+ * Provides intersection observer-based fade-in animation
+ * 
+ * @param children - Content to animate
+ * @param delay - Animation delay in milliseconds (default: 0)
+ * @param className - Additional CSS classes
+ * @param direction - Animation direction: 'up' (slide up) or 'none' (fade only)
+ */
+const FadeIn: React.FC<FadeInProps> = ({ 
+  children, 
+  delay = 0, 
+  className = '', 
+  direction = 'up' 
+}) => {
   const [isVisible, setIsVisible] = useState(false);
   const domRef = useRef<HTMLDivElement>(null);
 
@@ -16,10 +24,11 @@ const FadeIn: React.FC<FadeInProps> = ({ children, delay = 0, className = '', di
       entries.forEach(entry => {
         if (entry.isIntersecting) {
           setIsVisible(true);
+          // Unobserve after animation triggers (performance optimization)
           observer.unobserve(entry.target);
         }
       });
-    }, { threshold: 0.1 });
+    }, { threshold: 0.1 }); // Trigger when 10% of element is visible
 
     const currentRef = domRef.current;
     if (currentRef) {

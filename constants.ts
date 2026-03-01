@@ -1,5 +1,6 @@
 import { ProjectCategory, ExperienceItem, Skill } from './types';
-import { Mail, Linkedin, Globe, Video } from 'lucide-react';
+import { SocialLink } from './types/components';
+import { Mail, Phone, Video } from 'lucide-react';
 
 export const HERO_DATA = {
   name: "Aditya Naik",
@@ -7,23 +8,24 @@ export const HERO_DATA = {
   tagline: "Crafting visual stories through motion, compositing, and design."
 };
 
-export interface ProjectItem {
-  id: string;
-  type: 'video' | 'playlist';
-  videoId: string;
-  // Add this line below:
-  platform?: 'youtube' | 'vimeo'; 
-}
-
 export const PROJECTS_DATA: ProjectCategory[] = [
  
   {
+    title: "Content Creators",
+    projects: [
+      { id: 'CC-1', type: 'video', videoId: 'Q-rYX8z7NO4' },
+      { id: 'CC-2', type: 'video', videoId: 'eowbM36d-Ao' },
+      { id: 'CC-3', type: 'video', videoId: 'NzTN-DGg5w4' },
+      { id: 'CC-4', type: 'video', videoId: 'cWrGCm306fQ' },
+    ]
+  },
+  {
     title: "Just For Hearts",
     projects: [
-      { id: 'jfh-1', type: 'video', videoId: 'Nouxmk38iLc' },
+      { id: 'jfh-1', type: 'video', videoId: 'dP5PDsgDT84' },
       { id: 'jfh-2', type: 'video', videoId: 'DuieK8O7juQ' },
-      { id: 'jfh-3', type: 'video', videoId: 'JSrF89UKFJU' },
-      { id: 'jfh-4', type: 'video', videoId: 'fVVjE-89XZI' },
+      { id: 'jfh-3', type: 'video', videoId: 'cJwCx3DMxBc' },
+      { id: 'jfh-4', type: 'video', videoId: 'tAlqek44y3Q' },
     ]
   },
   {
@@ -36,8 +38,8 @@ export const PROJECTS_DATA: ProjectCategory[] = [
   {
     title: "Wedding Invitations",
     projects: [
-      { id: 'wedding-1', type: 'video', videoId: 'B2ELn4C15_w' }, // Fixed duplicate ID
-      { id: 'wedding-2', type: 'video', videoId: 'HRBuXzK7nB0' }, // Fixed duplicate ID
+      { id: 'wedding-1', type: 'video', videoId: 'B2ELn4C15_w' },
+      { id: 'wedding-2', type: 'video', videoId: 'HRBuXzK7nB0' },
     ]
   },
   {
@@ -48,14 +50,14 @@ export const PROJECTS_DATA: ProjectCategory[] = [
     ]
   },
    {
-    title: "Compositing", // Fixed spelling (was COmpositing)
+    title: "Compositing",
     projects: [
       { id: 'comp-1', type: 'video', videoId: 'wWRJXqXTBLc' },
     ]
   },
 
   {
-    title: "Travel Documentary/Vlogs", // Fixed spelling (was Documentry)
+    title: "Travel Documentary/Vlogs",
     projects: [
       { id: 'travel-1', type: 'video', videoId: 'qSUIoV-E32Y' },
       { id: 'travel-2', type: 'video', videoId: '5GA_6uRFdIM' }
@@ -64,7 +66,7 @@ export const PROJECTS_DATA: ProjectCategory[] = [
   {
     title: "Personal Editing",
     projects: [
-      { id: 'personal-1', type: 'video', videoId: 'bxhsznQp8HQ' }, // Fixed duplicate ID
+      { id: 'personal-1', type: 'video', videoId: 'bxhsznQp8HQ' },
     ]
   }
 ];
@@ -121,7 +123,7 @@ export const LANGUAGES_DATA: string[] = [
   "Hindi", "English", "Spanish", "Marathi"
 ];
 
-export const SOCIAL_LINKS = [
+export const SOCIAL_LINKS: SocialLink[] = [
   { 
     label: "Email", 
     href: "mailto:adityanaik5736@gmail.com", 
@@ -129,10 +131,10 @@ export const SOCIAL_LINKS = [
     value: "adityanaik5736@gmail.com" 
   },
   { 
-    label: "LinkedIn", 
-    href: "https://www.linkedin.com/in/aditya-naik11", 
-    icon: Linkedin,
-    value: "aditya-naik11"
+    label: "Phone", 
+    href: "tel:+919762659846", 
+    icon: Phone,
+    value: "+91 9762659846"
   },
   { 
     label: "Vimeo", 
