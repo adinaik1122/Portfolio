@@ -3,7 +3,6 @@ import { motion } from 'framer-motion';
 import { X, ArrowLeft, ArrowRight } from 'lucide-react';
 import { Project, DISCIPLINE_LABELS } from '../types';
 import { PROJECTS } from '../constants';
-import { useNavigate } from 'react-router-dom';
 
 function MediaEmbed({ project }: { project: Project }) {
   if (project.type === 'playlist' && project.videoId) {
@@ -47,19 +46,16 @@ function MediaEmbed({ project }: { project: Project }) {
 interface Props {
   project: Project;
   onClose: () => void;
+  onNavigate: (p: Project) => void;
 }
 
-export default function ProjectModal({ project, onClose }: Props) {
-  const navigate = useNavigate();
+export default function ProjectModal({ project, onClose, onNavigate }: Props) {
   const disciplineProjects = PROJECTS.filter(p => p.discipline === project.discipline);
   const idx         = disciplineProjects.findIndex(p => p.id === project.id);
   const prevProject = idx > 0 ? disciplineProjects[idx - 1] : null;
   const nextProject = idx < disciplineProjects.length - 1 ? disciplineProjects[idx + 1] : null;
 
-  const goTo = useCallback(
-    (p: Project) => navigate(`/work/${p.discipline}/${p.id}`, { replace: true }),
-    [navigate]
-  );
+  const goTo = useCallback((p: Project) => onNavigate(p), [onNavigate]);
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
@@ -82,16 +78,16 @@ export default function ProjectModal({ project, onClose }: Props) {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      transition={{ duration: 0.2 }}
-      className="fixed inset-0 z-50 bg-black/85 backdrop-blur-sm flex items-end sm:items-center justify-center p-0 sm:p-4 md:p-8"
+      transition={{ duration: 0.18, ease: 'easeOut' }}
+      className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-end sm:items-center justify-center p-0 sm:p-4 md:p-8"
       onClick={e => { if (e.target === e.currentTarget) onClose(); }}
     >
-      {/* Sheet — slides up on mobile, scales in on desktop */}
+      {/* Card — spring scale on all sizes */}
       <motion.div
-        initial={{ y: '100%', opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        exit={{ y: '100%', opacity: 0 }}
-        transition={{ duration: 0.38, ease: [0.22, 1, 0.36, 1] }}
+        initial={{ opacity: 0, scale: 0.94, y: 24 }}
+        animate={{ opacity: 1, scale: 1, y: 0 }}
+        exit={{ opacity: 0, scale: 0.97, y: 16 }}
+        transition={{ type: 'spring', stiffness: 420, damping: 38, mass: 0.75 }}
         className="relative bg-white w-full sm:rounded-xl overflow-hidden shadow-2xl
                    max-h-[92dvh] sm:max-h-[90vh] flex flex-col
                    sm:max-w-2xl md:max-w-4xl lg:max-w-5xl sm:mx-auto"

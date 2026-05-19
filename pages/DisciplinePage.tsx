@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { Link, useParams, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowLeft, ArrowRight } from 'lucide-react';
+import { ArrowLeft } from 'lucide-react';
 import { PROJECTS } from '../constants';
 import { Discipline, DISCIPLINE_LABELS, Project } from '../types';
 import ProjectModal from '../components/ProjectModal';
@@ -180,58 +180,39 @@ export default function DisciplinePage() {
   const meta     = DISCIPLINE_META[disc];
   const projects = PROJECTS.filter(p => p.discipline === disc);
 
-  // Carousel state
   const scrollRef = useRef<HTMLDivElement>(null);
-  const [activeIdx, setActiveIdx] = useState(0);
 
-  // Keep scroll-padding-left in sync with the container's CSS padding across resizes
+  // Keep scroll-padding-left in sync with container padding across resizes
   useEffect(() => {
     const el = scrollRef.current;
     if (!el) return;
-    const sync = () => {
-      el.style.scrollPaddingLeft = getComputedStyle(el).paddingLeft;
-    };
+    const sync = () => { el.style.scrollPaddingLeft = getComputedStyle(el).paddingLeft; };
     sync();
     const ro = new ResizeObserver(sync);
     ro.observe(el);
     return () => ro.disconnect();
   }, []);
 
-  const handleScroll = useCallback(() => {
-    const el = scrollRef.current;
-    if (!el) return;
-    const cards = Array.from(el.querySelectorAll('[data-card]')) as HTMLElement[];
-    if (!cards.length) return;
-    const step = (cards[0] as HTMLElement).offsetWidth + 16;
-    const idx = Math.round(el.scrollLeft / step);
-    setActiveIdx(Math.min(Math.max(idx, 0), cards.length - 1));
-  }, []);
-
-  const go = useCallback((dir: 'prev' | 'next') => {
-    const el = scrollRef.current;
-    if (!el) return;
-    const cards = Array.from(el.querySelectorAll('[data-card]')) as HTMLElement[];
-    if (!cards.length) return;
-    const step = (cards[0] as HTMLElement).offsetWidth + 16;
-    el.scrollBy({ left: dir === 'next' ? step : -step, behavior: 'smooth' });
-  }, []);
-
-  const openProject = useCallback(
-    (project: Project) => navigate(`/work/${disc}/${project.id}`),
-    [navigate, disc]
+  // Modal uses local state — no route change on open/close (prevents white flash)
+  const [modalProject, setModalProject] = useState<Project | null>(() =>
+    id ? projects.find(p => p.id === id) ?? null : null
   );
-  const closeModal = useCallback(
-    () => navigate(`/work/${disc}`, { replace: true }),
-    [navigate, disc]
-  );
+
+  const openProject = useCallback((project: Project) => {
+    setModalProject(project);
+    window.history.replaceState(null, '', `/work/${disc}/${project.id}`);
+  }, [disc]);
+
+  const closeModal = useCallback(() => {
+    setModalProject(null);
+    window.history.replaceState(null, '', `/work/${disc}`);
+  }, [disc]);
 
   useEffect(() => {
     if (!meta) navigate('/work', { replace: true });
   }, [meta, navigate]);
 
   if (!meta) return null;
-
-  const modalProject = id ? projects.find(p => p.id === id) ?? null : null;
 
   return (
     <div className="min-h-screen bg-neutral-950 pt-16">
@@ -275,62 +256,33 @@ export default function DisciplinePage() {
       {/* ── Projects carousel ────────────────────────────────────────────── */}
       <div className="py-10 md:py-12">
 
-        {/* Label + counter + arrows */}
-        <div className="px-8 md:px-12 lg:px-20 flex items-center justify-between mb-6">
-          <p className="text-[10px] uppercase tracking-[0.35em] text-neutral-600">
-            Projects
-          </p>
-          {projects.length > 0 && (
-            <div className="flex items-center gap-4">
-              <span className="font-mono text-[11px] text-neutral-500 tabular-nums">
-                {String(activeIdx + 1).padStart(2, '0')} / {String(projects.length).padStart(2, '0')}
-              </span>
-              <div className="flex items-center gap-1.5">
-                <button
-                  onClick={() => go('prev')}
-                  disabled={activeIdx === 0}
-                  aria-label="Previous project"
-                  className="w-8 h-8 flex items-center justify-center border border-neutral-800 text-neutral-500 hover:border-white/30 hover:text-white disabled:opacity-25 disabled:cursor-not-allowed transition-all duration-200"
-                >
-                  <ArrowLeft size={12} />
-                </button>
-                <button
-                  onClick={() => go('next')}
-                  disabled={activeIdx === projects.length - 1}
-                  aria-label="Next project"
-                  className="w-8 h-8 flex items-center justify-center border border-neutral-800 text-neutral-500 hover:border-white/30 hover:text-white disabled:opacity-25 disabled:cursor-not-allowed transition-all duration-200"
-                >
-                  <ArrowRight size={12} />
-                </button>
-              </div>
-            </div>
-          )}
+        <div className="px-8 md:px-12 lg:px-20 mb-6">
+          <p className="text-[10px] uppercase tracking-[0.35em] text-neutral-600">Projects</p>
         </div>
 
         {projects.length > 0 ? (
           <div className="relative">
-            {/* Scroll rail */}
             <div
               ref={scrollRef}
-              onScroll={handleScroll}
-              className="flex gap-4 overflow-x-auto scrollbar-hide px-8 md:px-12 lg:px-20"
-              style={{ scrollSnapType: 'x mandatory', scrollbarWidth: 'none', msOverflowStyle: 'none' } as React.CSSProperties}
+              className="flex gap-6 overflow-x-auto scrollbar-hide px-8 md:px-12 lg:px-20"
+              style={{
+                scrollSnapType: 'x mandatory',
+                scrollbarWidth: 'none',
+                msOverflowStyle: 'none',
+                touchAction: 'pan-x',
+                WebkitOverflowScrolling: 'touch',
+              } as React.CSSProperties}
             >
-              <AnimatePresence mode="popLayout">
-                {projects.map((project, i) => (
-                  <WorkCard
-                    key={project.id}
-                    project={project}
-                    index={i}
-                    onClick={() => openProject(project)}
-                  />
-                ))}
-              </AnimatePresence>
-              {/* End spacer so last card doesn't sit flush */}
-              <div className="flex-shrink-0 w-8 md:w-16" aria-hidden />
+              {projects.map((project, i) => (
+                <WorkCard
+                  key={project.id}
+                  project={project}
+                  index={i}
+                  onClick={() => openProject(project)}
+                />
+              ))}
+              <div className="flex-shrink-0 w-8 md:w-12" aria-hidden />
             </div>
-
-            {/* Right fade hint */}
             <div className="pointer-events-none absolute top-0 right-0 bottom-0 w-24 md:w-40 bg-gradient-to-l from-neutral-950 to-transparent" />
           </div>
         ) : (
@@ -359,7 +311,7 @@ export default function DisciplinePage() {
       {/* Modal */}
       <AnimatePresence>
         {modalProject && (
-          <ProjectModal project={modalProject} onClose={closeModal} />
+          <ProjectModal project={modalProject} onClose={closeModal} onNavigate={setModalProject} />
         )}
       </AnimatePresence>
     </div>

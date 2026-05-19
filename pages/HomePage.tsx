@@ -122,9 +122,6 @@ function Hero() {
         </FadeIn>
       </div>
 
-      {/* Gradient bridge to dark showreel section */}
-      <div className="absolute bottom-0 left-0 right-0 h-24 pointer-events-none z-10 bg-gradient-to-b from-transparent to-neutral-950" aria-hidden />
-
       {/* Scroll indicator */}
       <div className="absolute bottom-8 left-0 right-0 flex justify-center pointer-events-none z-20" aria-hidden>
         <div className="flex flex-col items-center gap-2">

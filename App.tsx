@@ -12,8 +12,8 @@ const DisciplinesPage   = lazy(() => import('./pages/DisciplinesPage'));
 const DisciplinePage    = lazy(() => import('./pages/DisciplinePage'));
 
 const Loader = () => (
-  <div className="fixed inset-0 flex items-center justify-center bg-white">
-    <div className="w-8 h-8 border-2 border-neutral-200 border-t-neutral-900 rounded-full animate-spin" />
+  <div className="fixed inset-0 flex items-center justify-center bg-neutral-950">
+    <div className="w-8 h-8 border-2 border-neutral-700 border-t-neutral-300 rounded-full animate-spin" />
   </div>
 );
 
@@ -22,7 +22,7 @@ function AnimatedRoutes() {
 
   return (
     <AnimatePresence mode="wait">
-      <Routes location={location} key={location.pathname}>
+      <Routes location={location} key={'/' + location.pathname.split('/').slice(1, 3).join('/')}>
         <Route
           path="/"
           element={
