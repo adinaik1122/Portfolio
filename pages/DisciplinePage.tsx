@@ -109,7 +109,7 @@ function WorkCard({ project, index, onClick }: {
       exit={{ opacity: 0 }}
       transition={{ duration: 0.35, delay: Math.min(index * 0.06, 0.25) }}
       className="group relative flex-shrink-0 overflow-hidden bg-neutral-900 cursor-pointer"
-      style={{ width: 'min(640px, 80vw)', scrollSnapAlign: 'start' }}
+      style={{ width: 'min(640px, 80vw)' }}
       onClick={onClick}
       onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') onClick(); }}
     >
@@ -260,18 +260,14 @@ export default function DisciplinePage() {
             */}
             <div
               ref={scrollRef}
-              className="overflow-x-auto scrollbar-hide"
+              className="overflow-x-scroll scrollbar-hide"
               style={{
-                scrollSnapType: 'x proximity',
                 scrollbarWidth: 'none',
                 msOverflowStyle: 'none',
                 WebkitOverflowScrolling: 'touch',
               } as React.CSSProperties}
             >
-              <div
-                className="flex gap-6 px-8 md:px-12 lg:px-20"
-                style={{ width: 'max-content' }}
-              >
+              <div className="inline-flex gap-6 px-8 md:px-12 lg:px-20">
                 {projects.map((project, i) => (
                   <WorkCard
                     key={project.id}
