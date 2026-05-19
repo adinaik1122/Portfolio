@@ -39,7 +39,7 @@ const DISCIPLINE_META: Record<Discipline, {
   editing: {
     num: '03',
     description: "Editing is where story is made. Whether it's a 30-minute YouTube documentary or a 60-second social reel, I shape raw footage into something that holds attention from first frame to last.",
-    tools: ['Premiere Pro', 'Lumetri', 'After Effects'],
+    tools: ['Premiere Pro', '', 'After Effects'],
     process: [
       { step: 'Assemble', text: 'Ingest raw footage, sync audio, and build a rough selects cut.' },
       { step: 'Structure', text: 'Shape narrative, pacing, and music to guide the viewer.' },

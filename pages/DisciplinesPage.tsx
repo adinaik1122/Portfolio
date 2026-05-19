@@ -27,7 +27,7 @@ const DISCIPLINES: {
     slug: 'editing',
     num: '03',
     description: 'Long-form and short-form editing, colour grading, audio cleanup, and multi-platform delivery.',
-    tools: ['Premiere Pro', 'Lumetri', 'After Effects'],
+    tools: ['Premiere Pro', '', 'After Effects'],
   },
   {
     slug: 'branding',
