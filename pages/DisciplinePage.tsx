@@ -182,17 +182,6 @@ export default function DisciplinePage() {
 
   const scrollRef = useRef<HTMLDivElement>(null);
 
-  // Keep scroll-padding-left in sync with container padding across resizes
-  useEffect(() => {
-    const el = scrollRef.current;
-    if (!el) return;
-    const sync = () => { el.style.scrollPaddingLeft = getComputedStyle(el).paddingLeft; };
-    sync();
-    const ro = new ResizeObserver(sync);
-    ro.observe(el);
-    return () => ro.disconnect();
-  }, []);
-
   // Modal uses local state — no route change on open/close (prevents white flash)
   const [modalProject, setModalProject] = useState<Project | null>(() =>
     id ? projects.find(p => p.id === id) ?? null : null
@@ -262,26 +251,37 @@ export default function DisciplinePage() {
 
         {projects.length > 0 ? (
           <div className="relative">
+            {/*
+              Two-container pattern:
+              outer = scroll viewport (overflow-x, no padding)
+              inner = flex row with padding at natural (max-content) width
+              This prevents the browser bug where padding on a flex overflow
+              container collapses the scrollable area.
+            */}
             <div
               ref={scrollRef}
-              className="flex gap-6 overflow-x-auto scrollbar-hide px-8 md:px-12 lg:px-20"
+              className="overflow-x-auto scrollbar-hide"
               style={{
-                scrollSnapType: 'x mandatory',
+                scrollSnapType: 'x proximity',
                 scrollbarWidth: 'none',
                 msOverflowStyle: 'none',
-                touchAction: 'pan-x',
                 WebkitOverflowScrolling: 'touch',
               } as React.CSSProperties}
             >
-              {projects.map((project, i) => (
-                <WorkCard
-                  key={project.id}
-                  project={project}
-                  index={i}
-                  onClick={() => openProject(project)}
-                />
-              ))}
-              <div className="flex-shrink-0 w-8 md:w-12" aria-hidden />
+              <div
+                className="flex gap-6 px-8 md:px-12 lg:px-20"
+                style={{ width: 'max-content' }}
+              >
+                {projects.map((project, i) => (
+                  <WorkCard
+                    key={project.id}
+                    project={project}
+                    index={i}
+                    onClick={() => openProject(project)}
+                  />
+                ))}
+                <div className="flex-shrink-0 w-4" aria-hidden />
+              </div>
             </div>
             <div className="pointer-events-none absolute top-0 right-0 bottom-0 w-24 md:w-40 bg-gradient-to-l from-neutral-950 to-transparent" />
           </div>
