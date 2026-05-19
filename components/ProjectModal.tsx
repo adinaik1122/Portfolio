@@ -51,12 +51,13 @@ interface Props {
 
 export default function ProjectModal({ project, onClose }: Props) {
   const navigate = useNavigate();
-  const idx         = PROJECTS.findIndex(p => p.id === project.id);
-  const prevProject = idx > 0 ? PROJECTS[idx - 1] : null;
-  const nextProject = idx < PROJECTS.length - 1 ? PROJECTS[idx + 1] : null;
+  const disciplineProjects = PROJECTS.filter(p => p.discipline === project.discipline);
+  const idx         = disciplineProjects.findIndex(p => p.id === project.id);
+  const prevProject = idx > 0 ? disciplineProjects[idx - 1] : null;
+  const nextProject = idx < disciplineProjects.length - 1 ? disciplineProjects[idx + 1] : null;
 
   const goTo = useCallback(
-    (p: Project) => navigate(`/work/${p.id}`, { replace: true }),
+    (p: Project) => navigate(`/work/${p.discipline}/${p.id}`, { replace: true }),
     [navigate]
   );
 

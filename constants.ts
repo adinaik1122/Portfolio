@@ -344,13 +344,13 @@ export const EXPERIENCE_DATA: ExperienceItem[] = [
 ];
 
 export const SKILLS_DATA: Skill[] = [
-  { name: 'Foundry Nuke', category: 'compositing' },
+  { name: 'Foundry Nuke', category: 'compositing', primary: true },
   { name: 'Silhouette', category: 'compositing' },
-  { name: 'Houdini', category: '3d' },
+  { name: 'Houdini', category: '3d', primary: true },
   { name: 'Blender', category: '3d' },
-  { name: 'After Effects', category: 'editing' },
-  { name: 'Premiere Pro', category: 'editing' },
-  { name: 'Adobe Photoshop', category: 'design' },
+  { name: 'After Effects', category: 'editing', primary: true },
+  { name: 'Premiere Pro', category: 'editing', primary: true },
+  { name: 'Adobe Photoshop', category: 'design', primary: true },
   { name: 'Adobe Illustrator', category: 'design' },
   { name: 'Figma', category: 'design' },
 ];

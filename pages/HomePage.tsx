@@ -16,12 +16,11 @@ const Experience = lazy(() => import('../components/Experience'));
 
 const SHOWREEL_VIDEO_ID = 'wWRJXqXTBLc';
 
-const CLIENTS = [
-  'Kingbee Animation',
-  'StudioB London',
-  'Christina Perri',
-  'Just For Hearts',
-  'Sheffield Sports Medicine',
+const CLIENTS: { name: string; url?: string }[] = [
+  { name: 'Kingbee Animation', url: '' },
+  { name: 'StudioB London',    url: '' },
+  { name: 'Just For Hearts',   url: '' },
+  { name: 'Sheffield Sports Medicine', url: '' },
 ];
 
 // ── Hero (compact) ───────────────────────────────────────────────────────────
@@ -88,16 +87,16 @@ function Hero() {
 
         <FadeIn delay={270}>
           <p
-            className="flex flex-col md:flex-row items-center gap-3 md:gap-6 text-neutral-500 font-light text-base md:text-lg mt-5 sm:mt-6"
+            className="flex flex-row flex-wrap items-center justify-center gap-x-4 gap-y-2 md:gap-x-6 text-neutral-500 font-light text-base md:text-lg mt-5 sm:mt-6"
             style={{
               transform: `translate3d(${mouseParallax.x * 0.4}px, ${mouseParallax.y * 0.4}px, 0)`,
               transition: 'transform 0.3s ease-out',
             }}
           >
             <span>Motion Graphics</span>
-            <span className="hidden md:block w-1 h-1 rounded-full" style={{ background: '#C4922A' }} />
+            <span className="w-1 h-1 rounded-full flex-shrink-0" style={{ background: '#C4922A' }} aria-hidden />
             <span>VFX & Compositing</span>
-            <span className="hidden md:block w-1 h-1 rounded-full" style={{ background: '#C4922A' }} />
+            <span className="w-1 h-1 rounded-full flex-shrink-0" style={{ background: '#C4922A' }} aria-hidden />
             <span>Video Editing</span>
           </p>
         </FadeIn>
@@ -122,6 +121,9 @@ function Hero() {
           </a>
         </FadeIn>
       </div>
+
+      {/* Gradient bridge to dark showreel section */}
+      <div className="absolute bottom-0 left-0 right-0 h-24 pointer-events-none z-10 bg-gradient-to-b from-transparent to-neutral-950" aria-hidden />
 
       {/* Scroll indicator */}
       <div className="absolute bottom-8 left-0 right-0 flex justify-center pointer-events-none z-20" aria-hidden>
@@ -186,13 +188,16 @@ function ShowreelSection() {
             <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-black/10" />
 
             {/* Centered play button */}
-            <div className="absolute inset-0 flex items-center justify-center z-10">
+            <div className="absolute inset-0 flex flex-col items-center justify-center z-10 gap-3">
               <div
                 className="flex items-center justify-center rounded-full border border-white/30 bg-black/30 backdrop-blur-sm group-hover:scale-110 group-hover:border-white/60 transition-all duration-500"
                 style={{ width: 80, height: 80 }}
               >
                 <Play size={26} className="text-white fill-white ml-1" />
               </div>
+              <span className="sm:hidden text-[10px] uppercase tracking-[0.2em] text-white/60">
+                Play Showreel
+              </span>
             </div>
 
             {/* Bottom meta */}
@@ -280,18 +285,50 @@ function ClientsStrip() {
     <section className="bg-white py-14 sm:py-20" aria-label="Clients">
       <div className="px-8 md:px-12 lg:px-20">
         <FadeIn>
-          <p className="text-center text-[10px] uppercase tracking-[0.4em] text-neutral-400 mb-8 sm:mb-10">
-            Clients
+          <p className="text-[10px] uppercase tracking-[0.4em] text-neutral-400 mb-8 sm:mb-10 text-center">
+            Selected Clients
           </p>
         </FadeIn>
 
-        <FadeIn delay={100}>
+        {/* Christina Perri — featured callout */}
+        <FadeIn delay={60}>
+          <div className="border border-neutral-100 p-6 sm:p-8 mb-8 sm:mb-10 flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-8">
+            <div className="flex-1 min-w-0">
+              <p className="text-[9px] uppercase tracking-[0.3em] text-neutral-400 mb-1">Featured</p>
+              <p className="font-serif text-2xl sm:text-3xl text-neutral-900 leading-tight">Christina Perri</p>
+              <p className="text-neutral-500 text-sm mt-1 leading-relaxed">
+                Lullaby album — video editing &amp; motion animation for 8–9 songs. Produced at Kingbee Animation, London.
+              </p>
+            </div>
+            <div className="flex-shrink-0">
+              <span
+                className="inline-block text-[10px] uppercase tracking-[0.2em] border px-4 py-2 text-neutral-500 border-neutral-200"
+              >
+                Motion · Editing
+              </span>
+            </div>
+          </div>
+        </FadeIn>
+
+        {/* Other clients */}
+        <FadeIn delay={140}>
           <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-4 sm:gap-x-10">
             {CLIENTS.map((client, i) => (
-              <React.Fragment key={client}>
-                <span className="text-sm sm:text-base font-light tracking-wide text-neutral-500 hover:text-neutral-900 transition-colors duration-300 whitespace-nowrap">
-                  {client}
-                </span>
+              <React.Fragment key={client.name}>
+                {client.url ? (
+                  <a
+                    href={client.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-sm sm:text-base font-light tracking-wide text-neutral-500 hover:text-neutral-900 transition-colors duration-300 whitespace-nowrap underline-offset-4 hover:underline"
+                  >
+                    {client.name}
+                  </a>
+                ) : (
+                  <span className="text-sm sm:text-base font-light tracking-wide text-neutral-500 whitespace-nowrap">
+                    {client.name}
+                  </span>
+                )}
                 {i < CLIENTS.length - 1 && (
                   <span className="hidden sm:block w-px h-4 bg-neutral-200" aria-hidden />
                 )}

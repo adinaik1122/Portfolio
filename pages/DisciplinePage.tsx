@@ -148,7 +148,7 @@ function WorkCard({ project, index, onClick }: {
             {project.title}
           </h3>
           {project.brief && (
-            <p className="text-white/35 text-xs mt-1.5 line-clamp-1 leading-relaxed">
+            <p className="text-white/55 text-xs mt-1.5 line-clamp-1 leading-relaxed">
               {project.brief}
             </p>
           )}
@@ -184,12 +184,17 @@ export default function DisciplinePage() {
   const scrollRef = useRef<HTMLDivElement>(null);
   const [activeIdx, setActiveIdx] = useState(0);
 
-  // Set scroll-padding-left to match container's padding so snap aligns correctly
+  // Keep scroll-padding-left in sync with the container's CSS padding across resizes
   useEffect(() => {
     const el = scrollRef.current;
     if (!el) return;
-    const pl = parseInt(getComputedStyle(el).paddingLeft);
-    el.style.scrollPaddingLeft = `${pl}px`;
+    const sync = () => {
+      el.style.scrollPaddingLeft = getComputedStyle(el).paddingLeft;
+    };
+    sync();
+    const ro = new ResizeObserver(sync);
+    ro.observe(el);
+    return () => ro.disconnect();
   }, []);
 
   const handleScroll = useCallback(() => {

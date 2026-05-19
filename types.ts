@@ -52,6 +52,7 @@ export interface ExperienceItem {
 export interface Skill {
   name: string;
   category?: 'compositing' | '3d' | 'design' | 'editing';
+  primary?: boolean;
 }
 
 // Kept for any legacy references

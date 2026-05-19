@@ -50,7 +50,7 @@ const Contact: React.FC = () => {
                         backfaceVisibility: 'hidden', // Smooth animations
                       }}
                     >
-                      <div className="p-3 bg-neutral-100 rounded-full text-neutral-600 group-hover:bg-[#C4922A] group-hover:text-white transition-colors">
+                      <div className="p-3 bg-neutral-100 rounded-sm text-neutral-600 group-hover:bg-[#C4922A] group-hover:text-white transition-colors">
                         <Icon size={20} />
                       </div>
                       <div className="flex-1 text-left">
@@ -96,7 +96,7 @@ const Contact: React.FC = () => {
                   style={{ transform: 'translateZ(20px)' }}
                 >
                   <div>
-                    <div className="inline-flex items-center gap-2 px-3 py-1 bg-neutral-100 rounded-full text-xs font-medium text-neutral-600 mb-4">
+                    <div className="inline-flex items-center gap-2 px-3 py-1 bg-neutral-100 text-xs font-medium text-neutral-600 mb-4">
                       <span className="relative flex h-2 w-2">
                         <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
                         <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>

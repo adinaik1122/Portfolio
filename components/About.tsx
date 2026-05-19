@@ -29,7 +29,7 @@ const About: React.FC = () => {
           <div className="md:col-span-2 flex justify-center md:justify-start">
             <FadeIn className="relative w-64 sm:w-72 md:w-full max-w-sm">
               <div
-                className="aspect-[3/4] w-full rounded-2xl overflow-hidden shadow-2xl border border-white/10 bg-neutral-800 group"
+                className="aspect-[3/4] w-full overflow-hidden shadow-2xl border border-white/10 bg-neutral-800 group"
                 style={{ transform: 'perspective(1000px)', transformStyle: 'preserve-3d' }}
               >
                 <img
@@ -73,22 +73,22 @@ const About: React.FC = () => {
             {/* Education & quick facts */}
             <FadeIn delay={200}>
               <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-2 gap-3 pt-2">
-                <div className="bg-white/5 border border-white/10 rounded-xl p-4">
+                <div className="bg-white/5 border border-white/10 p-4">
                   <p className="text-[10px] uppercase tracking-[0.2em] text-white/40 mb-1">Education</p>
                   <p className="text-white font-medium text-sm">MA Digital Effects</p>
                   <p className="text-white/50 text-xs mt-0.5">Bournemouth University</p>
                 </div>
-                <div className="bg-white/5 border border-white/10 rounded-xl p-4">
+                <div className="bg-white/5 border border-white/10 p-4">
                   <p className="text-[10px] uppercase tracking-[0.2em] text-white/40 mb-1">Work Style</p>
                   <p className="text-white font-medium text-sm">Remote First</p>
                   <p className="text-white/50 text-xs mt-0.5">Available worldwide</p>
                 </div>
-                <div className="bg-white/5 border border-white/10 rounded-xl p-4">
+                <div className="bg-white/5 border border-white/10 p-4">
                   <p className="text-[10px] uppercase tracking-[0.2em] text-white/40 mb-1">Experience</p>
                   <p className="text-white font-medium text-sm">4+ years</p>
                   <p className="text-white/50 text-xs mt-0.5">Freelance & Studio</p>
                 </div>
-                <div className="bg-white/5 border border-white/10 rounded-xl p-4">
+                <div className="bg-white/5 border border-white/10 p-4">
                   <p className="text-[10px] uppercase tracking-[0.2em] text-white/40 mb-1">Status</p>
                   <p className="text-white font-medium text-sm flex items-center gap-1.5">
                     <span className="relative flex h-2 w-2">

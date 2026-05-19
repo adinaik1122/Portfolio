@@ -36,10 +36,12 @@ const Skills: React.FC = () => {
                 {skills.map(skill => (
                   <span
                     key={skill.name}
-                    className="px-3 sm:px-4 py-1.5 sm:py-2 bg-neutral-50 border border-neutral-100
-                               text-neutral-700 text-xs sm:text-sm font-medium
-                               hover:border-[#C4922A] hover:text-[#C4922A] hover:bg-white
-                               transition-all duration-300 cursor-default rounded-sm"
+                    className={`px-3 sm:px-4 py-1.5 sm:py-2 text-xs sm:text-sm font-medium
+                               transition-all duration-300 cursor-default rounded-sm
+                               ${skill.primary
+                                 ? 'bg-neutral-900 text-white border border-neutral-900 hover:bg-[#C4922A] hover:border-[#C4922A]'
+                                 : 'bg-neutral-50 border border-neutral-100 text-neutral-500 hover:border-[#C4922A] hover:text-[#C4922A] hover:bg-white'
+                               }`}
                   >
                     {skill.name}
                   </span>

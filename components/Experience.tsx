@@ -61,7 +61,7 @@ const Experience: React.FC = () => {
                 <FadeIn delay={index * 100} direction="up">
                   <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-x-4 mb-2">
                     <h3 className="text-xl font-medium text-neutral-900">{item.company}</h3>
-                    <span className="text-sm font-mono text-neutral-500 bg-neutral-100 px-2 py-1 rounded mt-1 sm:mt-0 w-fit">{item.period}</span>
+                    <span className="text-sm font-mono text-neutral-500 bg-neutral-100 px-2 py-1 rounded-sm mt-1 sm:mt-0 w-fit">{item.period}</span>
                   </div>
 
                   <div className="mb-4">
