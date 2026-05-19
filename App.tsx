@@ -1,63 +1,84 @@
 import React, { lazy, Suspense } from 'react';
+import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
+import { AnimatePresence } from 'framer-motion';
 import Navbar from './components/Navbar';
-import Hero from './components/Hero';
 import ErrorBoundary from './components/ErrorBoundary';
 import SkipToContent from './components/SkipToContent';
 import CustomCursor from './components/CustomCursor';
+import PageTransition from './components/PageTransition';
 
-// Lazy load components below the fold
-const Projects = lazy(() => import('./components/Projects'));
-const Experience = lazy(() => import('./components/Experience'));
-const Skills = lazy(() => import('./components/Skills'));
-const About = lazy(() => import('./components/About'));
-const Contact = lazy(() => import('./components/Contact'));
+const HomePage          = lazy(() => import('./pages/HomePage'));
+const DisciplinesPage   = lazy(() => import('./pages/DisciplinesPage'));
+const DisciplinePage    = lazy(() => import('./pages/DisciplinePage'));
 
-// Loading fallback component
-const SectionLoader = () => (
-  <div className="flex items-center justify-center py-20" role="status" aria-live="polite">
-    <div className="w-8 h-8 border-2 border-neutral-300 border-t-neutral-900 rounded-full animate-spin"></div>
-    <span className="sr-only">Loading content...</span>
+const Loader = () => (
+  <div className="fixed inset-0 flex items-center justify-center bg-white">
+    <div className="w-8 h-8 border-2 border-neutral-200 border-t-neutral-900 rounded-full animate-spin" />
   </div>
 );
 
-function App() {
+function AnimatedRoutes() {
+  const location = useLocation();
+
   return (
-    <ErrorBoundary>
-      <SkipToContent />
-      <CustomCursor />
-      <div className="min-h-screen">
-        <Navbar />
-        <main id="main-content">
-          <Hero />
-          <ErrorBoundary>
-            <Suspense fallback={<SectionLoader />}>
-              <Projects />
-            </Suspense>
-          </ErrorBoundary>
-          <ErrorBoundary>
-            <Suspense fallback={<SectionLoader />}>
-              <Experience />
-            </Suspense>
-          </ErrorBoundary>
-          <ErrorBoundary>
-            <Suspense fallback={<SectionLoader />}>
-              <Skills />
-            </Suspense>
-          </ErrorBoundary>
-          <ErrorBoundary>
-            <Suspense fallback={<SectionLoader />}>
-              <About />
-            </Suspense>
-          </ErrorBoundary>
-          <ErrorBoundary>
-            <Suspense fallback={<SectionLoader />}>
-              <Contact />
-            </Suspense>
-          </ErrorBoundary>
-        </main>
-      </div>
-    </ErrorBoundary>
+    <AnimatePresence mode="wait">
+      <Routes location={location} key={location.pathname}>
+        <Route
+          path="/"
+          element={
+            <PageTransition>
+              <Suspense fallback={<Loader />}>
+                <HomePage />
+              </Suspense>
+            </PageTransition>
+          }
+        />
+        <Route
+          path="/work"
+          element={
+            <PageTransition>
+              <Suspense fallback={<Loader />}>
+                <DisciplinesPage />
+              </Suspense>
+            </PageTransition>
+          }
+        />
+        <Route
+          path="/work/:discipline"
+          element={
+            <PageTransition>
+              <Suspense fallback={<Loader />}>
+                <DisciplinePage />
+              </Suspense>
+            </PageTransition>
+          }
+        />
+        <Route
+          path="/work/:discipline/:id"
+          element={
+            <PageTransition>
+              <Suspense fallback={<Loader />}>
+                <DisciplinePage />
+              </Suspense>
+            </PageTransition>
+          }
+        />
+      </Routes>
+    </AnimatePresence>
   );
 }
 
-export default App;
+export default function App() {
+  return (
+    <BrowserRouter>
+      <ErrorBoundary>
+        <SkipToContent />
+        <CustomCursor />
+        <Navbar />
+        <main id="main-content">
+          <AnimatedRoutes />
+        </main>
+      </ErrorBoundary>
+    </BrowserRouter>
+  );
+}

@@ -94,9 +94,9 @@ const Hero: React.FC = () => {
                   }}
                 >
                     <span>Motion Graphics</span>
-                    <span className="hidden md:inline-block w-1.5 h-1.5 rounded-full bg-neutral-300" aria-hidden="true"></span>
+                    <span className="hidden md:inline-block w-1.5 h-1.5 rounded-full bg-[#C4922A]" aria-hidden="true"></span>
                     <span>Video Editing</span>
-                    <span className="hidden md:inline-block w-1.5 h-1.5 rounded-full bg-neutral-300" aria-hidden="true"></span>
+                    <span className="hidden md:inline-block w-1.5 h-1.5 rounded-full bg-[#C4922A]" aria-hidden="true"></span>
                     <span>Visual Effects</span>
                 </p>
             </FadeIn>

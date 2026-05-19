@@ -8,6 +8,13 @@ export default {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        sans:  ['Inter', 'system-ui', 'sans-serif'],
+        serif: ['Cormorant Garamond', 'Georgia', 'serif'],
+      },
+      colors: {
+        gold: '#C4922A',
+      },
       animation: {
         'scroll-down': 'scrollDown 2s ease-in-out infinite',
       },

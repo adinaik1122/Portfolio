@@ -40,14 +40,19 @@ const FadeIn: React.FC<FadeInProps> = ({
     };
   }, []);
 
-  const translateClass = direction === 'up' ? 'translate-y-10' : 'translate-y-0';
+  const translateClass = direction === 'up' ? 'translate-y-6' : 'translate-y-0';
   const visibleClass = isVisible ? 'opacity-100 translate-y-0' : `opacity-0 ${translateClass}`;
   
   return (
     <div
       ref={domRef}
-      className={`transition-all duration-1000 ease-out transform ${visibleClass} ${className}`}
-      style={{ transitionDelay: `${delay}ms` }}
+      className={`duration-700 ease-out ${visibleClass} ${className}`}
+      style={{
+        transitionProperty: 'opacity, transform',
+        transitionDuration: '700ms',
+        transitionTimingFunction: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)',
+        transitionDelay: `${delay}ms`,
+      }}
     >
       {children}
     </div>
