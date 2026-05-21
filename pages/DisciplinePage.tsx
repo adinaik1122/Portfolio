@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { Link, useParams, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowLeft } from 'lucide-react';
+import { ArrowLeft, ChevronLeft, ChevronRight } from 'lucide-react';
 import { PROJECTS } from '../constants';
 import { Discipline, DISCIPLINE_LABELS, Project } from '../types';
 import ProjectModal from '../components/ProjectModal';
@@ -39,7 +39,7 @@ const DISCIPLINE_META: Record<Discipline, {
   editing: {
     num: '03',
     description: "Editing is where story is made. Whether it's a 30-minute YouTube documentary or a 60-second social reel, I shape raw footage into something that holds attention from first frame to last.",
-    tools: ['Premiere Pro', '', 'After Effects'],
+    tools: ['Premiere Pro', 'Lumetri', 'After Effects'],
     process: [
       { step: 'Assemble', text: 'Ingest raw footage, sync audio, and build a rough selects cut.' },
       { step: 'Structure', text: 'Shape narrative, pacing, and music to guide the viewer.' },
@@ -181,6 +181,22 @@ export default function DisciplinePage() {
   const projects = PROJECTS.filter(p => p.discipline === disc);
 
   const scrollRef = useRef<HTMLDivElement>(null);
+  const [canScrollLeft,  setCanScrollLeft]  = useState(false);
+  const [canScrollRight, setCanScrollRight] = useState(true);
+
+  const updateScrollButtons = useCallback(() => {
+    const el = scrollRef.current;
+    if (!el) return;
+    setCanScrollLeft(el.scrollLeft > 8);
+    setCanScrollRight(el.scrollLeft < el.scrollWidth - el.clientWidth - 8);
+  }, []);
+
+  const scrollBy = useCallback((dir: 1 | -1) => {
+    const el = scrollRef.current;
+    if (!el) return;
+    const cardWidth = (el.querySelector('[data-card]') as HTMLElement | null)?.offsetWidth ?? 640;
+    el.scrollBy({ left: dir * (cardWidth + 24), behavior: 'smooth' });
+  }, []);
 
   // Modal uses local state — no route change on open/close (prevents white flash)
   const [modalProject, setModalProject] = useState<Project | null>(() =>
@@ -200,6 +216,15 @@ export default function DisciplinePage() {
   useEffect(() => {
     if (!meta) navigate('/work', { replace: true });
   }, [meta, navigate]);
+
+  useEffect(() => {
+    updateScrollButtons();
+    const el = scrollRef.current;
+    if (!el) return;
+    const ro = new ResizeObserver(updateScrollButtons);
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, [projects, updateScrollButtons]);
 
   if (!meta) return null;
 
@@ -250,17 +275,11 @@ export default function DisciplinePage() {
         </div>
 
         {projects.length > 0 ? (
-          <div className="relative">
-            {/*
-              Two-container pattern:
-              outer = scroll viewport (overflow-x, no padding)
-              inner = flex row with padding at natural (max-content) width
-              This prevents the browser bug where padding on a flex overflow
-              container collapses the scrollable area.
-            */}
+          <div className="relative group/carousel">
             <div
               ref={scrollRef}
               className="overflow-x-scroll scrollbar-hide"
+              onScroll={updateScrollButtons}
               style={{
                 scrollbarWidth: 'none',
                 msOverflowStyle: 'none',
@@ -279,6 +298,35 @@ export default function DisciplinePage() {
                 <div className="flex-shrink-0 w-4" aria-hidden />
               </div>
             </div>
+
+            {/* Left arrow */}
+            {canScrollLeft && (
+              <button
+                onClick={() => scrollBy(-1)}
+                aria-label="Scroll left"
+                className="absolute left-2 top-1/2 -translate-y-1/2 z-20
+                           w-9 h-9 flex items-center justify-center
+                           bg-neutral-900/80 hover:bg-neutral-800 border border-neutral-700
+                           text-white backdrop-blur-sm transition-colors"
+              >
+                <ChevronLeft size={16} />
+              </button>
+            )}
+
+            {/* Right arrow */}
+            {canScrollRight && (
+              <button
+                onClick={() => scrollBy(1)}
+                aria-label="Scroll right"
+                className="absolute right-2 top-1/2 -translate-y-1/2 z-20
+                           w-9 h-9 flex items-center justify-center
+                           bg-neutral-900/80 hover:bg-neutral-800 border border-neutral-700
+                           text-white backdrop-blur-sm transition-colors"
+              >
+                <ChevronRight size={16} />
+              </button>
+            )}
+
             <div className="pointer-events-none absolute top-0 right-0 bottom-0 w-24 md:w-40 bg-gradient-to-l from-neutral-950 to-transparent" />
           </div>
         ) : (
