@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://adityanaik.motioncraft.co.in/sitemap.xml

@@ -3,14 +3,11 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const MENU_ITEMS = [
-  { num: '01', label: 'Work',       href: '/work' },
-  { num: '02', label: 'Experience', href: '/#experience' },
-  { num: '03', label: 'About',      href: '/#about' },
-  { num: '04', label: 'Skills',     href: '/#skills' },
-  { num: '05', label: 'Contact',    href: '/#contact' },
+  { num: '01', label: 'Work', href: '/work' },
+  { num: '02', label: 'About', href: '/#about' },
+  { num: '03', label: 'Contact', href: '/#contact' },
 ];
-
-const SECTION_IDS = ['hero', 'experience', 'about', 'skills', 'contact'];
+const SECTION_IDS = ['hero', 'about', 'contact'];
 
 function scrollToHash(hash: string) {
   const el = document.querySelector(hash);
@@ -24,6 +21,12 @@ export default function Navbar() {
   const location  = useLocation();
   const navigate  = useNavigate();
   const isWorkPage = location.pathname.startsWith('/work');
+
+  useEffect(() => {
+    const onKey = (event: KeyboardEvent) => { if (event.key === 'Escape') setOpen(false); };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, []);
 
   // Close on route change
   useEffect(() => { setOpen(false); }, [location.pathname]);
@@ -91,7 +94,7 @@ export default function Navbar() {
       <nav
         aria-label="Main navigation"
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-          scrolled && !open
+          (scrolled || isWorkPage) && !open
             ? 'bg-white/95 backdrop-blur-md border-b border-neutral-100 py-4'
             : open
             ? 'py-4'
@@ -109,12 +112,15 @@ export default function Navbar() {
             AN.
           </Link>
 
+          <div className="hidden md:flex items-center gap-8">
+            {MENU_ITEMS.map(item => <a key={item.href} href={item.href} onClick={e => handleClick(e, item.href)} className="text-sm text-neutral-700 hover:text-neutral-950">{item.label}</a>)}
+          </div>
           {/* Hamburger button */}
           <button
             onClick={() => setOpen(v => !v)}
             aria-label={open ? 'Close menu' : 'Open menu'}
             aria-expanded={open}
-            className="z-50 flex flex-col justify-center items-end gap-[5px] w-8 h-8 focus:outline-none"
+            className="z-50 md:hidden flex flex-col justify-center items-end gap-[5px] w-8 h-8 focus:outline-none"
           >
             <span
               className={`block h-px transition-all duration-400 ${

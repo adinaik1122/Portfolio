@@ -1,48 +1,36 @@
-import { describe, it, expect, vi } from 'vitest';
-import { render, screen, fireEvent, within } from '@testing-library/react';
+import { describe, it, expect } from 'vitest';
+import { render, screen, fireEvent } from '@testing-library/react';
+import { MemoryRouter } from 'react-router-dom';
 import Navbar from '../../components/Navbar';
 
+const renderNav = () => render(<MemoryRouter><Navbar /></MemoryRouter>);
+
 describe('Navbar Component', () => {
-  it('renders navigation links', () => {
-    render(<Navbar />);
-    
-    // Use getAllByText since links appear in both desktop and mobile menus
-    const workLinks = screen.getAllByText('Work');
-    expect(workLinks.length).toBeGreaterThan(0);
-    
-    const experienceLinks = screen.getAllByText('Experience');
-    expect(experienceLinks.length).toBeGreaterThan(0);
+  it('offers Work, About and Contact in the simplified menu', () => {
+    renderNav();
+    fireEvent.click(screen.getByRole('button', { name: 'Open menu' }));
+    for (const name of ['Work', 'About', 'Contact']) {
+      expect(screen.getAllByRole('link', { name: new RegExp(name) }).length).toBeGreaterThan(0);
+    }
+    expect(screen.queryByText('Experience')).not.toBeInTheDocument();
+    expect(screen.queryByText('Skills')).not.toBeInTheDocument();
   });
-
-  it('renders logo', () => {
-    render(<Navbar />);
-    
-    expect(screen.getByText('AN.')).toBeInTheDocument();
+  it('links the logo home', () => {
+    renderNav();
+    expect(screen.getByRole('link', { name: 'Aditya Naik — home' })).toHaveAttribute('href', '/');
   });
-
-  it('toggles mobile menu on button click', () => {
-    render(<Navbar />);
-    
-    const menuButton = screen.getByLabelText(/open navigation menu/i);
-    fireEvent.click(menuButton);
-    
-    expect(screen.getByLabelText(/close navigation menu/i)).toBeInTheDocument();
+  it('toggles the menu and its expanded state', () => {
+    renderNav();
+    const button = screen.getByRole('button', { name: 'Open menu' });
+    expect(button).toHaveAttribute('aria-expanded', 'false');
+    fireEvent.click(button);
+    expect(button).toHaveAccessibleName('Close menu');
+    expect(button).toHaveAttribute('aria-expanded', 'true');
+    fireEvent.click(button);
+    expect(button).toHaveAttribute('aria-expanded', 'false');
   });
-
-  it('has proper ARIA attributes', () => {
-    render(<Navbar />);
-    
-    const nav = screen.getByRole('navigation');
-    expect(nav).toHaveAttribute('aria-label', 'Main navigation');
-  });
-
-  it('scrolls to top when logo is clicked', () => {
-    const scrollToSpy = vi.spyOn(window, 'scrollTo');
-    render(<Navbar />);
-    
-    const logo = screen.getByLabelText('Go to top of page');
-    fireEvent.click(logo);
-    
-    expect(scrollToSpy).toHaveBeenCalledWith({ top: 0, behavior: 'smooth' });
+  it('labels the main navigation', () => {
+    renderNav();
+    expect(screen.getByRole('navigation', { name: 'Main navigation' })).toBeInTheDocument();
   });
 });

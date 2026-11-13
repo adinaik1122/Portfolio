@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback } from 'react';
+import React, { useEffect, useCallback, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { X, ArrowLeft, ArrowRight } from 'lucide-react';
 import { Project, DISCIPLINE_LABELS } from '../types';
@@ -31,8 +31,8 @@ function MediaEmbed({ project }: { project: Project }) {
     return (
       <img
         src={project.images[0]}
-        alt={project.title}
-        className="absolute inset-0 w-full h-full object-cover"
+        alt={project.imageCaptions?.[0] ?? project.title}
+        className="absolute inset-0 w-full h-full object-contain bg-neutral-100"
       />
     );
   }
@@ -50,6 +50,21 @@ interface Props {
 }
 
 export default function ProjectModal({ project, onClose, onNavigate }: Props) {
+  const dialogRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    const previous = document.activeElement as HTMLElement | null;
+    const dialog = dialogRef.current;
+    dialog?.querySelector<HTMLButtonElement>('button')?.focus();
+    const trap = (event: KeyboardEvent) => {
+      if (event.key !== 'Tab' || !dialog) return;
+      const elements = Array.from(dialog.querySelectorAll<HTMLElement>('button, a[href], iframe, [tabindex="0"]'));
+      const first = elements[0], last = elements[elements.length - 1];
+      if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last?.focus(); }
+      else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first?.focus(); }
+    };
+    document.addEventListener('keydown', trap);
+    return () => { document.removeEventListener('keydown', trap); previous?.focus(); };
+  }, []);
   const disciplineProjects = PROJECTS.filter(p => p.discipline === project.discipline);
   const idx         = disciplineProjects.findIndex(p => p.id === project.id);
   const prevProject = idx > 0 ? disciplineProjects[idx - 1] : null;
@@ -75,11 +90,15 @@ export default function ProjectModal({ project, onClose, onNavigate }: Props) {
   return (
     /* Backdrop */
     <motion.div
+      ref={dialogRef}
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="project-title"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       transition={{ duration: 0.18, ease: 'easeOut' }}
-      className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-end sm:items-center justify-center p-0 sm:p-4 md:p-8"
+      className="fixed inset-0 z-[100] bg-black/80 backdrop-blur-sm flex items-end sm:items-center justify-center p-0 sm:p-4 md:p-8"
       onClick={e => { if (e.target === e.currentTarget) onClose(); }}
     >
       {/* Card — spring scale on all sizes */}
@@ -116,6 +135,9 @@ export default function ProjectModal({ project, onClose, onNavigate }: Props) {
             </button>
           </div>
 
+          {project.type === 'image' && project.imageCaptions?.[0] && (
+            <p className="px-5 py-3 text-xs text-neutral-500 bg-neutral-50">{project.imageCaptions[0]}</p>
+          )}
           {/* Meta + content */}
           <div className="flex flex-col md:flex-row">
 
@@ -152,7 +174,7 @@ export default function ProjectModal({ project, onClose, onNavigate }: Props) {
 
             {/* Main */}
             <div className="flex-1 px-5 py-5 sm:px-6 sm:py-6">
-              <h2 className="font-serif text-xl sm:text-2xl md:text-3xl text-neutral-900 mb-3">
+              <h2 id="project-title" className="font-serif text-xl sm:text-2xl md:text-3xl text-neutral-900 mb-3">
                 {project.title}
               </h2>
               <p className="text-neutral-600 text-sm sm:text-base leading-relaxed mb-6">
@@ -180,6 +202,17 @@ export default function ProjectModal({ project, onClose, onNavigate }: Props) {
               )}
             </div>
           </div>
+
+          {project.type === 'image' && project.images && project.images.length > 1 && (
+            <div className="px-5 pb-6 space-y-5" aria-label="Project gallery">
+              {project.images.slice(1).map((src, index) => (
+                <figure key={src}>
+                  <img src={src} alt={project.imageCaptions?.[index + 1] ?? `${project.title} — detail ${index + 2}`} loading="lazy" className="w-full h-auto rounded-sm bg-neutral-100" />
+                  {project.imageCaptions?.[index + 1] && <figcaption className="mt-2 text-xs text-neutral-500">{project.imageCaptions[index + 1]}</figcaption>}
+                </figure>
+              ))}
+            </div>
+          )}
 
           {/* Prev / Next */}
           <div className="border-t border-neutral-100 grid grid-cols-2">

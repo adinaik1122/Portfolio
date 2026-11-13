@@ -1,375 +1,63 @@
-import React, { useEffect, useRef, useState, lazy, Suspense } from 'react';
+import React, { useEffect, lazy, Suspense } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowRight, Play, X } from 'lucide-react';
-import { HERO_DATA } from '../constants';
-import { useMouseParallax } from '../hooks/use3DEffect';
-import FadeIn from '../components/FadeIn';
+import { ArrowRight, Play } from 'lucide-react';
+import { HERO_DATA, PROJECTS } from '../constants';
+import { DISCIPLINE_LABELS } from '../types';
 import YTThumbnail from '../components/YTThumbnail';
+const About = lazy(() => import('../components/About'));
+const Contact = lazy(() => import('../components/Contact'));
+const selectedIds = ['ayurexim', 'mg-2', 'festive', 'comp-1'];
+const selected = selectedIds.flatMap(id => PROJECTS.find(p => p.id === id) ?? []);
 
-const About      = lazy(() => import('../components/About'));
-const Skills     = lazy(() => import('../components/Skills'));
-const Contact    = lazy(() => import('../components/Contact'));
-const Experience = lazy(() => import('../components/Experience'));
-
-// ── Constants ────────────────────────────────────────────────────────────────
-
-const SHOWREEL_VIDEO_ID = 'wWRJXqXTBLc';
-
-const CLIENTS: { name: string; url?: string }[] = [
-  { name: 'Kingbee Animation', url: '' },
-  { name: 'StudioB London',    url: '' },
-  { name: 'Just For Hearts',   url: '' },
-  { name: 'Sheffield Sports Medicine', url: '' },
-];
-
-// ── Hero (compact) ───────────────────────────────────────────────────────────
-function Hero() {
-  const containerRef  = useRef<HTMLDivElement>(null);
-  const [cursor, setCursor] = useState({ x: 0, y: 0 });
-  const mouseParallax = useMouseParallax(12);
-
-  useEffect(() => {
-    const update = (e: MouseEvent) => {
-      if (!containerRef.current) return;
-      const r = containerRef.current.getBoundingClientRect();
-      setCursor({ x: e.clientX - r.left, y: e.clientY - r.top });
-    };
-    window.addEventListener('mousemove', update);
-    return () => window.removeEventListener('mousemove', update);
-  }, []);
-
-  return (
-    <section
-      ref={containerRef}
-      id="hero"
-      className="relative min-h-[82dvh] flex flex-col items-center justify-center overflow-hidden bg-neutral-50 pt-20"
-      aria-label="Hero"
-    >
-      {/* Cursor-following grid */}
-      <div className="absolute inset-0 pointer-events-none" aria-hidden>
-        <div
-          className="absolute inset-0 opacity-[0.3] mix-blend-soft-light"
-          style={{
-            backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")`,
-          }}
-        />
-        <div
-          className="absolute inset-0 bg-[linear-gradient(to_right,#00000008_1px,transparent_1px),linear-gradient(to_bottom,#00000008_1px,transparent_1px)] bg-[size:40px_40px]"
-          style={{
-            maskImage: `radial-gradient(circle 400px at ${cursor.x}px ${cursor.y}px, black, transparent 80%), radial-gradient(circle at center, black 30%, transparent 100%)`,
-            WebkitMaskImage: `radial-gradient(circle 400px at ${cursor.x}px ${cursor.y}px, black, transparent 80%), radial-gradient(circle at center, black 30%, transparent 100%)`,
-          }}
-        />
-      </div>
-
-      <div className="relative z-10 w-full mx-auto px-8 md:px-12 lg:px-20 text-center flex flex-col items-center justify-center flex-1 pb-16">
-
-        <FadeIn delay={60}>
-          <span className="inline-flex items-center gap-2 text-[11px] uppercase tracking-[0.35em] text-neutral-400 mb-6 sm:mb-8">
-            <span className="w-5 h-px bg-neutral-300" />
-            Digital Artist
-            <span className="w-5 h-px bg-neutral-300" />
-          </span>
-        </FadeIn>
-
-        <FadeIn delay={160} className="w-full">
-          <h1
-            className="font-serif text-[13vw] sm:text-7xl md:text-[6rem] lg:text-[7.5rem] font-medium text-neutral-900 leading-none tracking-tight"
-            style={{
-              transform: `translate3d(${mouseParallax.x}px, ${mouseParallax.y}px, 0)`,
-              transition: 'transform 0.3s ease-out',
-            }}
-          >
-            {HERO_DATA.name}
-          </h1>
-        </FadeIn>
-
-        <FadeIn delay={270}>
-          <p
-            className="flex flex-row flex-wrap items-center justify-center gap-x-4 gap-y-2 md:gap-x-6 text-neutral-500 font-light text-base md:text-lg mt-5 sm:mt-6"
-            style={{
-              transform: `translate3d(${mouseParallax.x * 0.4}px, ${mouseParallax.y * 0.4}px, 0)`,
-              transition: 'transform 0.3s ease-out',
-            }}
-          >
-            <span>Motion Graphics</span>
-            <span className="w-1 h-1 rounded-full flex-shrink-0" style={{ background: '#C4922A' }} aria-hidden />
-            <span>VFX & Compositing</span>
-            <span className="w-1 h-1 rounded-full flex-shrink-0" style={{ background: '#C4922A' }} aria-hidden />
-            <span>Video Editing</span>
-          </p>
-        </FadeIn>
-
-        <FadeIn delay={380} className="mt-8 sm:mt-10 flex flex-wrap items-center justify-center gap-3 sm:gap-4">
-          <Link
-            to="/work"
-            className="group inline-flex items-center gap-3 px-7 py-3.5 bg-neutral-900 text-white text-[11px] tracking-[0.12em] uppercase hover:bg-neutral-700 transition-all duration-300"
-          >
-            <span>View All Work</span>
-            <ArrowRight size={12} className="group-hover:translate-x-1 transition-transform" />
-          </Link>
-          <a
-            href="#contact"
-            onClick={e => {
-              e.preventDefault();
-              document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
-            }}
-            className="text-[11px] text-neutral-400 hover:text-neutral-900 tracking-[0.12em] uppercase underline-offset-4 hover:underline transition-colors"
-          >
-            Hire me
-          </a>
-        </FadeIn>
-      </div>
-
-      {/* Scroll indicator */}
-      <div className="absolute bottom-8 left-0 right-0 flex justify-center pointer-events-none z-20" aria-hidden>
-        <div className="flex flex-col items-center gap-2">
-          <span className="text-[9px] tracking-[0.3em] uppercase text-neutral-400 opacity-50">Scroll</span>
-          <div className="h-10 w-px bg-neutral-200 overflow-hidden relative">
-            <div className="absolute top-0 left-0 w-full h-full bg-neutral-400 animate-scroll-down" />
-          </div>
-        </div>
-      </div>
-
-    </section>
-  );
-}
-
-// ── Showreel ─────────────────────────────────────────────────────────────────
-function ShowreelSection() {
-  const [open, setOpen] = useState(false);
-
-  // Lock body scroll when modal is open
-  useEffect(() => {
-    document.body.style.overflow = open ? 'hidden' : '';
-    return () => { document.body.style.overflow = ''; };
-  }, [open]);
-
-  // Escape key closes modal
-  useEffect(() => {
-    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') setOpen(false); };
-    window.addEventListener('keydown', onKey);
-    return () => window.removeEventListener('keydown', onKey);
-  }, []);
-
-  return (
-    <section className="bg-neutral-950 pb-16 sm:pb-24" aria-label="Showreel">
-      <div className="px-8 md:px-12 lg:px-20">
-
-        {/* Label row */}
-        <FadeIn>
-          <div className="flex items-center justify-between pt-12 sm:pt-16 pb-6 sm:pb-8">
-            <p className="text-[10px] sm:text-[11px] uppercase tracking-[0.35em] text-neutral-500">
-              Showreel
-            </p>
-            <p className="font-mono text-[10px] text-neutral-600">2024</p>
-          </div>
-        </FadeIn>
-
-        {/* Frame */}
-        <FadeIn delay={80}>
-          <button
-            onClick={() => setOpen(true)}
-            className="group relative w-full overflow-hidden bg-neutral-900 rounded-sm aspect-video sm:aspect-[21/9] block"
-            aria-label="Play showreel"
-          >
-            {/* Thumbnail */}
-            <YTThumbnail
-              videoId={SHOWREEL_VIDEO_ID}
-              loading="eager"
-              className="absolute inset-0 w-full h-full object-cover opacity-70 group-hover:opacity-90 group-hover:scale-[1.04] transition-all duration-700 ease-out"
-            />
-
-            {/* Gradient overlay */}
-            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-black/10" />
-
-            {/* Centered play button */}
-            <div className="absolute inset-0 flex flex-col items-center justify-center z-10 gap-3">
-              <div
-                className="flex items-center justify-center rounded-full border border-white/30 bg-black/30 backdrop-blur-sm group-hover:scale-110 group-hover:border-white/60 transition-all duration-500"
-                style={{ width: 80, height: 80 }}
-              >
-                <Play size={26} className="text-white fill-white ml-1" />
-              </div>
-              <span className="sm:hidden text-[10px] uppercase tracking-[0.2em] text-white/60">
-                Play Showreel
-              </span>
-            </div>
-
-            {/* Bottom meta */}
-            <div className="absolute bottom-0 left-0 right-0 px-6 sm:px-10 py-6 sm:py-8 z-10 flex items-end justify-between">
-              <div>
-                <p className="font-serif text-white text-xl sm:text-2xl md:text-3xl font-medium leading-tight">
-                  VFX Compositing Showreel
-                </p>
-                <p className="text-[10px] sm:text-[11px] uppercase tracking-[0.2em] text-white/40 mt-1.5">
-                  Compositing · Motion Graphics · Colour
-                </p>
-              </div>
-              <span
-                className="hidden sm:block text-[10px] uppercase tracking-[0.2em] text-white border border-white/30 px-4 py-2 group-hover:bg-white group-hover:text-neutral-900 transition-all duration-300 whitespace-nowrap"
-              >
-                Watch
-              </span>
-            </div>
-
-            {/* Gold accent line at bottom */}
-            <div
-              className="absolute bottom-0 left-0 h-[2px] w-0 group-hover:w-full transition-all duration-700 ease-out"
-              style={{ background: '#C4922A' }}
-            />
-          </button>
-        </FadeIn>
-
-        {/* Sub-caption */}
-        <FadeIn delay={160}>
-          <p className="mt-4 text-[10px] text-neutral-600 tracking-[0.2em] uppercase text-right">
-            Kingbee Animation · StudioB London · 2023–2024
-          </p>
-        </FadeIn>
-      </div>
-
-      {/* Lightbox modal */}
-      <AnimatePresence>
-        {open && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.25 }}
-            className="fixed inset-0 z-[100] bg-black/95 backdrop-blur-sm flex items-center justify-center p-4 sm:p-8"
-            onClick={() => setOpen(false)}
-          >
-            <motion.div
-              initial={{ scale: 0.95, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.95, opacity: 0 }}
-              transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-              className="relative w-full max-w-5xl"
-              onClick={e => e.stopPropagation()}
-            >
-              {/* 16:9 iframe */}
-              <div className="relative w-full" style={{ paddingBottom: '56.25%' }}>
-                <iframe
-                  src={`https://www.youtube-nocookie.com/embed/${SHOWREEL_VIDEO_ID}?rel=0&modestbranding=1&autoplay=1`}
-                  title="VFX Compositing Showreel"
-                  className="absolute inset-0 w-full h-full"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                  allowFullScreen
-                />
-              </div>
-
-              {/* Close */}
-              <button
-                onClick={() => setOpen(false)}
-                className="absolute -top-10 right-0 text-white/60 hover:text-white text-[11px] uppercase tracking-[0.2em] flex items-center gap-2 transition-colors"
-                aria-label="Close showreel"
-              >
-                Close <X size={14} />
-              </button>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </section>
-  );
-}
-
-// ── Clients ──────────────────────────────────────────────────────────────────
-function ClientsStrip() {
-  return (
-    <section className="bg-white py-14 sm:py-20" aria-label="Clients">
-      <div className="px-8 md:px-12 lg:px-20">
-        <FadeIn>
-          <p className="text-[10px] uppercase tracking-[0.4em] text-neutral-400 mb-8 sm:mb-10 text-center">
-            Selected Clients
-          </p>
-        </FadeIn>
-
-        {/* Christina Perri — featured callout */}
-        <FadeIn delay={60}>
-          <div className="border border-neutral-100 p-6 sm:p-8 mb-8 sm:mb-10 flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-8">
-            <div className="flex-1 min-w-0">
-              <p className="text-[9px] uppercase tracking-[0.3em] text-neutral-400 mb-1">Featured</p>
-              <p className="font-serif text-2xl sm:text-3xl text-neutral-900 leading-tight">Christina Perri</p>
-              <p className="text-neutral-500 text-sm mt-1 leading-relaxed">
-                Lullaby album — video editing &amp; motion animation for 8–9 songs. Produced at Kingbee Animation, London.
-              </p>
-            </div>
-            <div className="flex-shrink-0">
-              <span
-                className="inline-block text-[10px] uppercase tracking-[0.2em] border px-4 py-2 text-neutral-500 border-neutral-200"
-              >
-                Motion · Editing
-              </span>
-            </div>
-          </div>
-        </FadeIn>
-
-        {/* Other clients */}
-        <FadeIn delay={140}>
-          <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-4 sm:gap-x-10">
-            {CLIENTS.map((client, i) => (
-              <React.Fragment key={client.name}>
-                {client.url ? (
-                  <a
-                    href={client.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-sm sm:text-base font-light tracking-wide text-neutral-500 hover:text-neutral-900 transition-colors duration-300 whitespace-nowrap underline-offset-4 hover:underline"
-                  >
-                    {client.name}
-                  </a>
-                ) : (
-                  <span className="text-sm sm:text-base font-light tracking-wide text-neutral-500 whitespace-nowrap">
-                    {client.name}
-                  </span>
-                )}
-                {i < CLIENTS.length - 1 && (
-                  <span className="hidden sm:block w-px h-4 bg-neutral-200" aria-hidden />
-                )}
-              </React.Fragment>
-            ))}
-          </div>
-        </FadeIn>
-      </div>
-    </section>
-  );
-}
-
-// ── Page ──────────────────────────────────────────────────────────────────────
 export default function HomePage() {
   const location = useLocation();
-
-  // Handle hash scroll from cross-page navigation (e.g. /work → /#experience)
   useEffect(() => {
-    const scrollTo = (location.state as { scrollTo?: string } | null)?.scrollTo;
-    if (!scrollTo) return;
+    const hash = (location.state as { scrollTo?: string } | null)?.scrollTo || location.hash;
+    if (!hash) { window.scrollTo({ top: 0, behavior: 'instant' }); return; }
+    let timer: ReturnType<typeof setTimeout>;
     let attempts = 0;
-    const tryScroll = () => {
-      const el = document.querySelector(scrollTo);
-      if (el) {
-        el.scrollIntoView({ behavior: 'smooth' });
-      } else if (attempts < 15) {
-        attempts++;
-        setTimeout(tryScroll, 100);
-      }
+    const scroll = () => {
+      const target = document.getElementById(hash.replace(/^#/, ''));
+      if (target) target.scrollIntoView({ behavior: 'smooth' });
+      else if (attempts++ < 20) timer = setTimeout(scroll, 100);
     };
-    tryScroll();
-  }, [location.state]);
+    scroll();
+    return () => clearTimeout(timer);
+  }, [location.state, location.hash]);
 
   return (
     <>
-      <Hero />
-      <ShowreelSection />
-      <ClientsStrip />
-      <Suspense fallback={null}>
-        <Experience />
-        <About />
-        <Skills />
-        <Contact />
-      </Suspense>
+      <section id="hero" className="bg-neutral-50 px-8 md:px-12 lg:px-20 pt-32 md:pt-40 pb-12 md:pb-16">
+        <p className="text-xs uppercase tracking-[0.25em] text-neutral-500 mb-5">Independent designer &amp; video editor</p>
+        <h1 className="font-serif text-6xl sm:text-7xl md:text-8xl lg:text-9xl tracking-tight text-neutral-900">{HERO_DATA.name}</h1>
+        <div className="mt-7 flex flex-col md:flex-row md:items-end justify-between gap-7">
+          <p className="text-lg md:text-xl text-neutral-600 max-w-xl leading-relaxed">Video editing, branding &amp; packaging, and VFX compositing.<br className="hidden sm:block" /> From the first idea to the final frame.</p>
+          <a href="#contact" className="inline-flex items-center gap-3 text-sm text-neutral-900 underline underline-offset-8">Discuss a project <ArrowRight size={16} /></a>
+        </div>
+      </section>
+      <section className="bg-neutral-950 px-8 md:px-12 lg:px-20 py-12 md:py-16" aria-labelledby="selected-heading">
+        <div className="flex items-baseline justify-between gap-4 mb-8">
+          <h2 id="selected-heading" className="font-serif text-3xl md:text-4xl text-white">Selected work</h2>
+          <Link to="/work" className="text-xs text-neutral-300 underline underline-offset-4">Explore all work</Link>
+        </div>
+        <div className="grid md:grid-cols-2 gap-x-7 gap-y-10">
+          {selected.map(project => (
+            <Link key={project.id} to={`/work/${project.discipline}/${project.id}`} className="group block min-w-0">
+              <div className="relative aspect-[4/3] overflow-hidden bg-neutral-900">
+                {project.type === 'image' ? <img src={project.images?.[0]} alt={project.imageCaptions?.[0] ?? project.title} loading="lazy" className="w-full h-full object-contain bg-neutral-100 transition-transform duration-500 group-hover:scale-[1.02]" />
+                  : project.type === 'video' && project.videoId ? <YTThumbnail videoId={project.videoId} className="w-full h-full object-cover" />
+                  : <div className="h-full flex flex-col justify-center p-8 md:p-12 bg-[#292333]"><p className="text-xs tracking-[0.2em] uppercase text-neutral-300 mb-5">Editing &amp; motion · Album playlist</p><p className="font-serif text-4xl md:text-5xl text-white leading-tight">Christina Perri<br /><span className="text-[#d6bfaa]">Lullaby Album</span></p></div>}
+                {project.type !== 'image' && <div className="absolute bottom-5 right-5 rounded-full bg-white text-neutral-900 p-4"><Play size={20} aria-hidden="true" /></div>}
+              </div>
+              <div className="flex items-start justify-between gap-4 mt-4"><div><p className="text-[11px] uppercase tracking-[0.15em] text-neutral-400 mb-2">{DISCIPLINE_LABELS[project.discipline]} · {project.year}</p><h3 className="font-serif text-2xl text-white group-hover:underline underline-offset-4">{project.title}</h3></div><ArrowRight size={18} className="text-neutral-400 mt-7 shrink-0" /></div>
+            </Link>
+          ))}
+        </div>
+        <div className="grid md:grid-cols-3 gap-6 mt-14 border-t border-neutral-700 pt-8" aria-label="Browse disciplines">
+          {(['editing', 'branding', 'vfx'] as const).map(slug => <Link key={slug} to={`/work/${slug}`} className="flex justify-between items-center gap-4 text-neutral-200 py-3">{DISCIPLINE_LABELS[slug]}<ArrowRight size={16} /></Link>)}
+        </div>
+      </section>
+      <Suspense fallback={null}><About /><Contact /></Suspense>
     </>
   );
 }

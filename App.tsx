@@ -1,10 +1,9 @@
 import React, { lazy, Suspense } from 'react';
-import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
-import { AnimatePresence } from 'framer-motion';
+import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom';
+import { AnimatePresence, MotionConfig } from 'framer-motion';
 import Navbar from './components/Navbar';
 import ErrorBoundary from './components/ErrorBoundary';
 import SkipToContent from './components/SkipToContent';
-import CustomCursor from './components/CustomCursor';
 import PageTransition from './components/PageTransition';
 
 const HomePage          = lazy(() => import('./pages/HomePage'));
@@ -63,6 +62,7 @@ function AnimatedRoutes() {
             </PageTransition>
           }
         />
+        <Route path="*" element={<Navigate to="/work" replace />} />
       </Routes>
     </AnimatePresence>
   );
@@ -70,15 +70,16 @@ function AnimatedRoutes() {
 
 export default function App() {
   return (
+    <MotionConfig reducedMotion="user">
     <BrowserRouter>
       <ErrorBoundary>
         <SkipToContent />
-        <CustomCursor />
         <Navbar />
         <main id="main-content">
           <AnimatedRoutes />
         </main>
       </ErrorBoundary>
     </BrowserRouter>
+    </MotionConfig>
   );
 }

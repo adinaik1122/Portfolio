@@ -10,7 +10,7 @@ export const DISCIPLINE_LABELS: Record<Discipline, string> = {
   vfx: 'VFX & Compositing',
   motion: 'Motion Graphics',
   editing: 'Video Editing',
-  branding: 'Branding',
+  branding: 'Branding & Packaging',
   design: 'Design',
   visualization: 'Arch Viz',
 };
@@ -33,6 +33,7 @@ export interface Project {
   videoId?: string;
   // Image/design projects
   images?: string[];
+  imageCaptions?: string[];
   palette?: string[];
   // Display
   featured?: boolean;

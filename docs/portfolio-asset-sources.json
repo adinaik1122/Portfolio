@@ -1,0 +1,62 @@
+[
+  {
+    "project": "ayurexim",
+    "source": "D:\\project\\Ayurexim\\03-Product-Media\\Mockups\\mockup\\combo_kumkumadi-radiance-duo\\combo_kumkumadi-radiance-duo_mockup_01.png",
+    "destination": "/projects/ayurexim/01.png"
+  },
+  {
+    "project": "ayurexim",
+    "source": "D:\\project\\Ayurexim\\03-Product-Media\\Mockups\\mockup\\herbal-hair-serum\\herbal-hair-serum_mockup_01.png",
+    "destination": "/projects/ayurexim/02.png"
+  },
+  {
+    "project": "festive",
+    "source": "F:\\2026 Project Backup\\Maruti Industries\\Festive\\files\\Festive Labels v2 - FINAL (Layout Update)\\previews\\01 Festive Rose.png",
+    "destination": "/projects/festive/01.png"
+  },
+  {
+    "project": "festive",
+    "source": "F:\\2026 Project Backup\\Maruti Industries\\Festive\\files\\Festive Labels v2 - FINAL (Layout Update)\\previews\\06 Festive Citrus Burst.png",
+    "destination": "/projects/festive/02.png"
+  },
+  {
+    "project": "festive",
+    "source": "F:\\2026 Project Backup\\Maruti Industries\\Festive\\files\\Festive Labels v2 - FINAL (Layout Update)\\previews\\11 Festive Aqua Mist.png",
+    "destination": "/projects/festive/03.png"
+  },
+  {
+    "project": "optosphere",
+    "source": "D:\\01-Design-Projects\\Brand-Projects\\Optosphere\\Brand-Package\\01_LOGO\\PRIMARY\\PNG\\01 Primary Horizonal + Tagline.png",
+    "destination": "/projects/optosphere/01.png"
+  },
+  {
+    "project": "optosphere",
+    "source": "D:\\01-Design-Projects\\Brand-Projects\\Optosphere\\Brand-Package\\01_LOGO\\PRIMARY\\PNG\\03 Stacked Logo.png",
+    "destination": "/projects/optosphere/02.png"
+  },
+  {
+    "project": "webee",
+    "source": "D:\\01-Design-Projects\\Brand-Projects\\WEBEE\\Brand-Package\\01_LOGO\\PRIMARY\\PNG\\02 Primary Horizonal.png",
+    "destination": "/projects/webee/01.png"
+  },
+  {
+    "project": "webee",
+    "source": "D:\\01-Design-Projects\\Brand-Projects\\WEBEE\\Brand-Package\\01_LOGO\\PRIMARY\\PNG\\03 Stacked Logo.png",
+    "destination": "/projects/webee/02.png"
+  },
+  {
+    "project": "motioncraft",
+    "source": "D:\\01-Design-Projects\\Brand-Projects\\Motioncraft\\logo\\with brand name and black background V2.png",
+    "destination": "/projects/motioncraft/01.png"
+  },
+  {
+    "project": "orbito",
+    "source": "D:\\01-Design-Projects\\Brand-Projects\\ORBITO\\Original_logo.svg",
+    "destination": "/projects/orbito/01.svg"
+  },
+  {
+    "project": "orbito",
+    "source": "D:\\01-Design-Projects\\Brand-Projects\\ORBITO\\text logo.svg",
+    "destination": "/projects/orbito/02.svg"
+  }
+]

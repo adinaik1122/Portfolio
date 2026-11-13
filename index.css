@@ -8,24 +8,17 @@
     font-family: 'Inter', system-ui, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    cursor: none;
   }
-
-  /* Show default cursor on mobile/touch devices */
-  @media (hover: none) and (pointer: coarse) {
-    body {
-      cursor: auto;
-    }
+  :focus-visible {
+    outline: 2px solid #C4922A;
+    outline-offset: 5px;
   }
-
-  /* Hide default cursor on interactive elements */
-  a, button, input, textarea, select {
-    cursor: none;
-  }
-
-  @media (hover: none) and (pointer: coarse) {
-    a, button, input, textarea, select {
-      cursor: pointer;
+  button, a { touch-action: manipulation; }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
     }
   }
 }

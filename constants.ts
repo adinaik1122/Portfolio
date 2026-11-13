@@ -1,14 +1,16 @@
+import { RECENT_PROJECTS } from './constants/recentProjects';
 import { Project, ExperienceItem, Skill } from './types';
 import { SocialLink } from './types/components';
 import { Mail, Phone, Video } from 'lucide-react';
 
 export const HERO_DATA = {
   name: "Aditya Naik",
-  title: "Digital Artist · Motion Graphics · VFX",
-  tagline: "Crafting visual stories through motion, compositing, and design.",
+  title: "Video Editing · Branding & Packaging · VFX Compositing",
+  tagline: "Stories in motion. Brands with character. Seamless visual effects.",
 };
 
 export const PROJECTS: Project[] = [
+  ...RECENT_PROJECTS,
   // ── VFX & Compositing ─────────────────────────────────────────────────────
   {
     id: 'comp-1',
@@ -33,7 +35,7 @@ export const PROJECTS: Project[] = [
   {
     id: 'mg-1',
     title: 'Motion Graphics Reel',
-    discipline: 'motion',
+    discipline: 'editing',
     year: 2024,
     client: 'Various',
     brief: 'Highlights from motion graphics projects including logo animations, title sequences, and animated brand assets.',
@@ -51,7 +53,7 @@ export const PROJECTS: Project[] = [
   {
     id: 'mg-2',
     title: 'Christina Perri — Lullaby Album',
-    discipline: 'motion',
+    discipline: 'editing',
     year: 2024,
     client: 'Christina Perri / Kingbee Animation',
     brief: 'Video editing and motion animation for a lullaby album created by singer Christina Perri as a gift for her daughter\'s first birthday. Edited 8–9 songs across the album; character design and environment artwork were contributed by other artists at Kingbee Animation.',
@@ -222,7 +224,7 @@ export const PROJECTS: Project[] = [
   {
     id: 'wedding-1',
     title: 'Animated Wedding Invite — I',
-    discipline: 'motion',
+    discipline: 'editing',
     year: 2023,
     client: 'Private Client',
     brief: 'Digital animated wedding invitation with elegant typography animation and floral motifs, delivered as a video for sharing via WhatsApp and social.',
@@ -239,7 +241,7 @@ export const PROJECTS: Project[] = [
   {
     id: 'wedding-2',
     title: 'Animated Wedding Invite — II',
-    discipline: 'motion',
+    discipline: 'editing',
     year: 2023,
     client: 'Private Client',
     brief: 'Second animated invitation with a different aesthetic — modern, minimal, and set to a classical piano track.',

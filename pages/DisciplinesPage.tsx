@@ -11,48 +11,15 @@ const DISCIPLINES: {
   description: string;
   tools: string[];
 }[] = [
-  {
-    slug: 'vfx',
-    num: '01',
-    description: 'Node-based compositing, CG integration, roto and paint for broadcast and studio productions.',
-    tools: ['Nuke', 'Silhouette', 'After Effects'],
-  },
-  {
-    slug: 'motion',
-    num: '02',
-    description: 'Logo animations, title sequences, kinetic typography, and animated brand assets.',
-    tools: ['After Effects', 'Illustrator', 'Premiere Pro'],
-  },
-  {
-    slug: 'editing',
-    num: '03',
-    description: 'Long-form and short-form editing, colour grading, audio cleanup, and multi-platform delivery.',
-    tools: ['Premiere Pro', '', 'After Effects'],
-  },
-  {
-    slug: 'branding',
-    num: '04',
-    description: 'Visual identity systems, logo design, and brand motion packages.',
-    tools: ['Illustrator', 'Photoshop', 'After Effects'],
-  },
-  {
-    slug: 'design',
-    num: '05',
-    description: 'Graphic design, social media assets, and print-ready layouts for digital-first brands.',
-    tools: ['Figma', 'Illustrator', 'Photoshop'],
-  },
-  {
-    slug: 'visualization',
-    num: '06',
-    description: 'Architectural visualisation and 3D environment rendering for real estate and design clients.',
-    tools: ['Blender', 'Houdini', 'Photoshop'],
-  },
+  { slug: 'editing', num: '01', description: 'Video editing for creators, brands, and stories — from long-form films to short social cuts.', tools: ['Premiere Pro', 'After Effects'] },
+  { slug: 'branding', num: '02', description: 'Brand identities and packaging — logos, typography, labels, and print-ready design.', tools: ['Illustrator', 'Photoshop'] },
+  { slug: 'vfx', num: '03', description: 'Compositing, CG integration, keying, roto, and paint for studio and digital productions.', tools: ['Nuke', 'Silhouette', 'After Effects'] },
 ];
 
 function getThumb(slug: Discipline): string | null {
   const project = PROJECTS.find(p => p.discipline === slug);
   if (!project) return null;
-  if ((project.type === 'video' || project.type === 'playlist') && project.videoId)
+  if (project.type === 'video' && project.videoId)
     return `https://img.youtube.com/vi/${project.videoId}/maxresdefault.jpg`;
   if (project.images?.[0]) return project.images[0];
   return null;
@@ -73,15 +40,15 @@ export default function DisciplinesPage() {
           <h1 className="font-serif text-4xl sm:text-5xl md:text-6xl text-white">
             Work
           </h1>
-          <p className="text-neutral-600 text-sm hidden sm:block text-right leading-relaxed">
-            {totalProjects} projects across<br />6 disciplines
+          <p className="text-neutral-400 text-sm hidden sm:block text-right leading-relaxed">
+            {totalProjects} projects across<br />3 disciplines
           </p>
         </div>
       </div>
 
       {/* Discipline grid */}
       <div className="px-8 md:px-12 lg:px-20 py-6">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-neutral-800">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-px bg-neutral-800">
           {DISCIPLINES.map((d, i) => {
             const count = PROJECTS.filter(p => p.discipline === d.slug).length;
             const isEmpty = count === 0;
@@ -97,7 +64,7 @@ export default function DisciplinesPage() {
                 <Link
                   to={`/work/${d.slug}`}
                   className={`group block bg-neutral-950 p-8 md:p-10 h-full relative overflow-hidden transition-colors duration-300 ${
-                    isEmpty ? 'pointer-events-none' : 'hover:bg-neutral-900/70'
+                    'hover:bg-neutral-900/70'
                   }`}
                 >
                   {/* Thumbnail background — very subtle */}
@@ -118,29 +85,29 @@ export default function DisciplinesPage() {
                     />
                   )}
 
-                  <div className={`relative z-10 h-full flex flex-col ${isEmpty ? 'opacity-35' : ''}`}>
+                  <div className={`relative z-10 h-full flex flex-col `}>
                     <div className="flex items-start justify-between mb-5">
                       <span className={`font-mono text-[11px] transition-colors duration-300 ${
-                        isEmpty ? 'text-neutral-600' : 'text-neutral-600 group-hover:text-[#C4922A]'
+                        isEmpty ? 'text-neutral-400' : 'text-neutral-400 group-hover:text-[#C4922A]'
                       }`}>
                         {d.num}
                       </span>
                       {!isEmpty && (
                         <ArrowRight
                           size={14}
-                          className="text-neutral-700 group-hover:text-[#C4922A] -translate-x-1 group-hover:translate-x-0 opacity-0 group-hover:opacity-100 transition-all duration-300"
+                          className="text-neutral-400 group-hover:text-[#C4922A] -translate-x-1 group-hover:translate-x-0 opacity-0 group-hover:opacity-100 transition-all duration-300"
                         />
                       )}
                     </div>
 
                     <h2 className={`font-serif text-2xl sm:text-3xl leading-tight mb-4 transition-colors duration-300 ${
-                      isEmpty ? 'text-neutral-600' : 'text-neutral-400 group-hover:text-white'
+                      'text-neutral-200 group-hover:text-white'
                     }`}>
                       {DISCIPLINE_LABELS[d.slug]}
                     </h2>
 
                     <p className={`text-sm leading-relaxed mb-6 transition-colors duration-300 ${
-                      isEmpty ? 'text-neutral-700' : 'text-neutral-600 group-hover:text-neutral-400'
+                      'text-neutral-400'
                     }`}>
                       {d.description}
                     </p>
@@ -149,7 +116,7 @@ export default function DisciplinesPage() {
                       {d.tools.map(t => (
                         <span
                           key={t}
-                          className="text-[9px] uppercase tracking-[0.12em] text-neutral-700 border border-neutral-800 px-2 py-1"
+                          className="text-[9px] uppercase tracking-[0.12em] text-neutral-400 border border-neutral-800 px-2 py-1"
                         >
                           {t}
                         </span>
@@ -158,8 +125,8 @@ export default function DisciplinesPage() {
 
                     <p className={`mt-auto text-[10px] uppercase tracking-[0.2em] transition-colors duration-300 ${
                       isEmpty
-                        ? 'text-neutral-700'
-                        : 'text-neutral-700 group-hover:text-neutral-500'
+                        ? 'text-neutral-400'
+                        : 'text-neutral-400 group-hover:text-neutral-500'
                     }`}>
                       {isEmpty ? 'Coming soon' : `${count} project${count !== 1 ? 's' : ''}`}
                     </p>

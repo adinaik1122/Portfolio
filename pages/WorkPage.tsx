@@ -237,7 +237,7 @@ export default function WorkPage() {
       {/* ── Project modal ── */}
       <AnimatePresence>
         {modalProject && (
-          <ProjectModal project={modalProject} onClose={closeModal} />
+          <ProjectModal project={modalProject} onClose={closeModal} onNavigate={openProject} />
         )}
       </AnimatePresence>
     </div>
