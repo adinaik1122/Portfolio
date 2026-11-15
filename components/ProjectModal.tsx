@@ -8,22 +8,24 @@ function MediaEmbed({ project }: { project: Project }) {
   if (project.type === 'playlist' && project.videoId) {
     return (
       <iframe
-        src={`https://www.youtube-nocookie.com/embed/videoseries?list=${project.videoId.trim()}&rel=0&modestbranding=1&autoplay=1`}
+        src={`https://www.youtube-nocookie.com/embed/videoseries?list=${project.videoId.trim()}&rel=0`}
         title={project.title}
         className="absolute inset-0 w-full h-full"
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
         allowFullScreen
+        loading="lazy"
       />
     );
   }
   if (project.type === 'video' && project.videoId) {
     return (
       <iframe
-        src={`https://www.youtube-nocookie.com/embed/${project.videoId.trim()}?rel=0&modestbranding=1&autoplay=1`}
+        src={`https://www.youtube-nocookie.com/embed/${project.videoId.trim()}?rel=0`}
         title={project.title}
         className="absolute inset-0 w-full h-full"
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
         allowFullScreen
+        loading="lazy"
       />
     );
   }

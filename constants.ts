@@ -17,18 +17,11 @@ export const PROJECTS: Project[] = [
     title: 'VFX Compositing Showreel',
     discipline: 'vfx',
     year: 2024,
-    client: 'Kingbee Animation',
-    brief: 'A curated showreel of compositing work spanning 2D/3D integration, roto, paint, and visual effects produced during my time at Kingbee Animation.',
+    brief: 'A selection of VFX compositing work. Individual shot credits and production details are available on request.',
     tools: ['Nuke', 'After Effects', 'Silhouette', 'Photoshop'],
     type: 'video',
     videoId: 'wWRJXqXTBLc',
     featured: true,
-    process: [
-      { step: 'Brief', text: 'Compile a representative selection of compositing work from client projects into a single polished reel.' },
-      { step: 'Approach', text: 'Sequenced shots by complexity — building from clean keying and roto work to full CG integration — to demonstrate range.' },
-      { step: 'Tools', text: 'Primary compositing in Nuke; roto and paint in Silhouette; finishing and grade in After Effects.' },
-      { step: 'Result', text: 'A 90-second reel showcasing work delivered for Kingbee Animation and StudioB clients.' },
-    ],
   },
 
   // ── Motion Graphics ────────────────────────────────────────────────────────
@@ -37,18 +30,12 @@ export const PROJECTS: Project[] = [
     title: 'Motion Graphics Reel',
     discipline: 'editing',
     year: 2024,
-    client: 'Various',
+    client: 'Selected work',
     brief: 'Highlights from motion graphics projects including logo animations, title sequences, and animated brand assets.',
     tools: ['After Effects', 'Illustrator', 'Premiere Pro'],
     type: 'video',
     videoId: 'tg03Igge8qg',
     featured: true,
-    process: [
-      { step: 'Brief', text: 'Showcase the breadth of motion graphics work across multiple clients and styles.' },
-      { step: 'Approach', text: 'Mixed kinetic typography, logo animation, and 2D character motion to demonstrate versatility.' },
-      { step: 'Tools', text: 'After Effects for all motion; Illustrator for vector assets; Premiere Pro for final edit and mix.' },
-      { step: 'Result', text: 'A 60-second reel used for freelance pitches and job applications.' },
-    ],
   },
   {
     id: 'mg-2',
@@ -56,7 +43,7 @@ export const PROJECTS: Project[] = [
     discipline: 'editing',
     year: 2024,
     client: 'Christina Perri / Kingbee Animation',
-    brief: 'Video editing and motion animation for a lullaby album created by singer Christina Perri as a gift for her daughter\'s first birthday. Edited 8–9 songs across the album; character design and environment artwork were contributed by other artists at Kingbee Animation.',
+    brief: 'Video editing and motion work for a Christina Perri lullaby album at Kingbee Animation Studio. Character and environment artwork were contributed by other artists.',
     tools: ['After Effects', 'Premiere Pro', 'Illustrator'],
     type: 'playlist',
     videoId: 'PLLpHUxGA-WgZlUoCAj8tVJxFy_n5OBwCl',
@@ -64,7 +51,7 @@ export const PROJECTS: Project[] = [
       { step: 'Brief', text: 'Produce video content for a full lullaby album by Christina Perri, intended as a heartfelt birthday gift for her daughter. Each song required its own edited video with matching motion animation.' },
       { step: 'Approach', text: 'Edited 8–9 individual song videos from raw footage and assets, maintaining a consistent visual language across the album. Collaborated closely with other Kingbee artists handling character animation and environment design.' },
       { step: 'Tools', text: 'Premiere Pro for video editing and assembly; After Effects for motion animation, compositing, and transitions; Illustrator for supplementary graphic assets.' },
-      { step: 'Result', text: 'A complete album of lullaby videos delivered through Kingbee Animation for Christina Perri — a personal project with a meaningful creative brief and a tight collaborative production pipeline.' },
+      { step: 'Output', text: 'A series of lullaby videos produced collaboratively at Kingbee Animation Studio.' },
     ],
   },
 
@@ -83,7 +70,7 @@ export const PROJECTS: Project[] = [
       { step: 'Brief', text: 'Edit a fast-paced video for a content creator that maximises watch time and audience retention.' },
       { step: 'Approach', text: 'Used J/L cuts and music-synced transitions to maintain energy; colour grade matched the creator\'s established aesthetic.' },
       { step: 'Tools', text: 'Premiere Pro for the edit; After Effects for custom text animations and transitions.' },
-      { step: 'Result', text: 'Delivered on a 48-hour turnaround; video achieved above-average retention for the channel.' },
+      { step: 'Output', text: 'Edited video for a creator channel.' },
     ],
   },
   {
@@ -100,7 +87,7 @@ export const PROJECTS: Project[] = [
       { step: 'Brief', text: 'Build on the style established in Vol. 1 with more graphic elements and a tighter narrative structure.' },
       { step: 'Approach', text: 'Introduced animated lower thirds and chapter markers to guide the viewer through longer sections.' },
       { step: 'Tools', text: 'Premiere Pro; After Effects for enhanced motion graphics.' },
-      { step: 'Result', text: 'Consistent with the creator\'s brand identity, delivered within the agreed timeline.' },
+      { step: 'Output', text: 'A second edited video in the creator series.' },
     ],
   },
   {
@@ -117,7 +104,7 @@ export const PROJECTS: Project[] = [
       { step: 'Brief', text: 'Elevate the visual quality to match the creator\'s growing audience expectations.' },
       { step: 'Approach', text: 'Applied a cinematic colour grade with teal/orange contrast and layered the mix with subtle ambient sound design.' },
       { step: 'Tools', text: 'Premiere Pro;  for grade; After Effects for title sequences.' },
-      { step: 'Result', text: 'Noticeable uplift in comments referencing video quality.' },
+      { step: 'Output', text: 'An edited video with colour and sound work.' },
     ],
   },
   {
@@ -134,7 +121,7 @@ export const PROJECTS: Project[] = [
       { step: 'Brief', text: 'Handle a multi-source project with tutorial footage, screen recordings, and talking head camera.' },
       { step: 'Approach', text: 'Synced multi-cam angles and used PiP layouts to show screen recordings alongside presenter footage.' },
       { step: 'Tools', text: 'Premiere Pro multi-cam sequence; After Effects for screen highlight animations.' },
-      { step: 'Result', text: 'Clean, professional tutorial-style video delivered across all platforms.' },
+      { step: 'Output', text: 'An edited tutorial-style video.' },
     ],
   },
 
@@ -145,16 +132,10 @@ export const PROJECTS: Project[] = [
     discipline: 'editing',
     year: 2023,
     client: 'Just For Hearts',
-    brief: 'Emotional wedding highlight film with cinematic colour and music-driven editing for a UK-based wedding videography brand.',
+    brief: 'Video editing work associated with Just For Hearts. The subject and production credit for this upload need confirmation.',
     tools: ['Premiere Pro', 'After Effects', 'Lumetri'],
     type: 'video',
     videoId: 'dP5PDsgDT84',
-    process: [
-      { step: 'Brief', text: 'Create a highlight film that captures the emotion of the day within a 3–5 minute deliverable.' },
-      { step: 'Approach', text: 'Led with the ceremony audio — vows, reactions — and built the cut around the emotional arc of the music.' },
-      { step: 'Tools', text: 'Premiere Pro for the edit;  for the warm, filmic grade.' },
-      { step: 'Result', text: 'Delivered to the client within 2 weeks; used as a showcase piece by Just For Hearts.' },
-    ],
   },
   {
     id: 'jfh-2',
@@ -162,7 +143,7 @@ export const PROJECTS: Project[] = [
     discipline: 'editing',
     year: 2023,
     client: 'Just For Hearts',
-    brief: 'Second highlight film exploring a more documentary-style approach with natural audio and minimal music.',
+    brief: 'Video editing work associated with Just For Hearts. The subject and production credit for this upload need confirmation.',
     tools: ['Premiere Pro', 'Lumetri'],
     type: 'video',
     videoId: 'DuieK8O7juQ',
@@ -173,7 +154,7 @@ export const PROJECTS: Project[] = [
     discipline: 'editing',
     year: 2023,
     client: 'Just For Hearts',
-    brief: 'Highlight film with extended reception coverage and first-dance choreography cut to music.',
+    brief: 'Video editing work associated with Just For Hearts. The subject and production credit for this upload need confirmation.',
     tools: ['Premiere Pro', 'After Effects', 'Lumetri'],
     type: 'video',
     videoId: 'cJwCx3DMxBc',
@@ -184,7 +165,7 @@ export const PROJECTS: Project[] = [
     discipline: 'editing',
     year: 2023,
     client: 'Just For Hearts',
-    brief: 'Destination wedding film with travel footage and venue establishing shots woven into the narrative.',
+    brief: 'Video editing work associated with Just For Hearts. The subject and production credit for this upload need confirmation.',
     tools: ['Premiere Pro', 'Lumetri'],
     type: 'video',
     videoId: 'tAlqek44y3Q',
@@ -205,7 +186,7 @@ export const PROJECTS: Project[] = [
       { step: 'Brief', text: 'Communicate the clinic\'s credibility and professionalism to attract professional athlete clients.' },
       { step: 'Approach', text: 'Intercut clinical/white-space shots with performance footage to balance authority with energy.' },
       { step: 'Tools', text: 'Premiere Pro for edit; After Effects for animated lower thirds and logo sting.' },
-      { step: 'Result', text: 'Used across the clinic\'s social media and website.' },
+      { step: 'Output', text: 'A promotional edit for Sheffield Sports Medicine.' },
     ],
   },
   {
@@ -300,8 +281,8 @@ export const PROJECTS: Project[] = [
 export const EXPERIENCE_DATA: ExperienceItem[] = [
   {
     company: 'Freelance',
-    role: 'Video Editor · Architectural Visualisation · Motion Graphics',
-    period: 'Jan 2021 – Present',
+    role: 'Motion Designer & Video Editor',
+    period: 'Jan 2024 – Present',
     location: 'Remote',
     description: [
       'Delivered architectural visualisation projects for UK-based clients using Blender and Houdini.',
@@ -311,9 +292,9 @@ export const EXPERIENCE_DATA: ExperienceItem[] = [
   },
   {
     company: 'Kingbee Animation',
-    role: 'Jr. Motion Graphics Designer · Compositor · Video Editor',
-    period: 'Aug 2023 – Aug 2024',
-    location: 'Elstree & Borehamwood, United Kingdom',
+    role: 'Junior Motion Graphics Designer & Video Editor',
+    period: 'Sep 2022 – Sep 2023',
+    location: 'London, United Kingdom',
     description: [
       'Created 2D logo animations for Music Mind Matters.',
       'Composited 2D animations for an album by singer Christina Perri.',
@@ -334,7 +315,7 @@ export const EXPERIENCE_DATA: ExperienceItem[] = [
   {
     company: 'Just For Hearts',
     role: 'YouTube Video Editor',
-    period: 'Jan 2020 – Sep 2021',
+    period: '2020 – 2021',
     location: 'Pune',
     description: [
       'Edited long-form healthcare content from raw footage — assembly cut through final delivery.',

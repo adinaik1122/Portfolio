@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
 import { PROJECTS } from '../constants';
 import { Discipline, DISCIPLINE_LABELS } from '../types';
+import { usePageMeta } from '../hooks/usePageMeta';
 
 const DISCIPLINES: {
   slug: Discipline;
@@ -26,6 +27,7 @@ function getThumb(slug: Discipline): string | null {
 }
 
 export default function DisciplinesPage() {
+  usePageMeta('Selected Work | Aditya Naik', 'Browse video editing, motion graphics, VFX compositing, branding, and packaging projects by Aditya Naik.', '/work');
   const totalProjects = PROJECTS.length;
 
   return (

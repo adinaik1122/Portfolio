@@ -6,6 +6,7 @@ import { PROJECTS } from '../constants';
 import { Discipline, DISCIPLINE_LABELS, Project } from '../types';
 import ProjectModal from '../components/ProjectModal';
 import YTThumbnail from '../components/YTThumbnail';
+import { usePageMeta } from '../hooks/usePageMeta';
 
 const DISCIPLINE_META: Record<Discipline, {
   num: string;
@@ -109,6 +110,11 @@ export default function DisciplinePage() {
   const meta = DISCIPLINE_META[disc];
   const projects = PROJECTS.filter(p => p.discipline === disc);
   const modalProject = projects.find(p => p.id === id);
+  usePageMeta(
+    `${modalProject?.title ?? DISCIPLINE_LABELS[disc] ?? 'Work'} | Aditya Naik`,
+    modalProject?.brief ?? `Explore ${DISCIPLINE_LABELS[disc] ?? 'selected'} projects by Aditya Naik.`,
+    id && modalProject ? `/work/${disc}/${id}` : `/work/${disc}`,
+  );
   const visible = showAll ? projects : projects.slice(0, 6);
   useEffect(() => {
     if (disc === 'motion') navigate(`/work/editing${id ? '/' + id : ''}`, { replace: true });

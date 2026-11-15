@@ -4,12 +4,14 @@ import { ArrowRight, Play } from 'lucide-react';
 import { HERO_DATA, PROJECTS } from '../constants';
 import { DISCIPLINE_LABELS } from '../types';
 import YTThumbnail from '../components/YTThumbnail';
+import { usePageMeta } from '../hooks/usePageMeta';
 const About = lazy(() => import('../components/About'));
 const Contact = lazy(() => import('../components/Contact'));
-const selectedIds = ['ayurexim', 'mg-2', 'festive', 'comp-1'];
+const selectedIds = ['mg-1', 'mg-2', 'comp-1', 'ayurexim', 'festive'];
 const selected = selectedIds.flatMap(id => PROJECTS.find(p => p.id === id) ?? []);
 
 export default function HomePage() {
+  usePageMeta('Aditya Naik | Video Editor & Motion Designer', 'Video editing, motion graphics, and visual storytelling by Aditya Naik. Explore selected motion, VFX, branding, and packaging work.', '/');
   const location = useLocation();
   useEffect(() => {
     const hash = (location.state as { scrollTo?: string } | null)?.scrollTo || location.hash;
@@ -28,11 +30,15 @@ export default function HomePage() {
   return (
     <>
       <section id="hero" className="bg-neutral-50 px-8 md:px-12 lg:px-20 pt-32 md:pt-40 pb-12 md:pb-16">
-        <p className="text-xs uppercase tracking-[0.25em] text-neutral-500 mb-5">Independent designer &amp; video editor</p>
+        <p className="text-xs uppercase tracking-[0.25em] text-neutral-500 mb-5">Independent video editor &amp; motion designer</p>
         <h1 className="font-serif text-6xl sm:text-7xl md:text-8xl lg:text-9xl tracking-tight text-neutral-900">{HERO_DATA.name}</h1>
         <div className="mt-7 flex flex-col md:flex-row md:items-end justify-between gap-7">
-          <p className="text-lg md:text-xl text-neutral-600 max-w-xl leading-relaxed">Video editing, branding &amp; packaging, and VFX compositing.<br className="hidden sm:block" /> From the first idea to the final frame.</p>
-          <a href="#contact" className="inline-flex items-center gap-3 text-sm text-neutral-900 underline underline-offset-8">Discuss a project <ArrowRight size={16} /></a>
+          <p className="text-lg md:text-xl text-neutral-600 max-w-2xl leading-relaxed">Video editing, motion graphics, and visual storytelling for brands and digital platforms. I also work across VFX compositing, branding, and packaging.</p>
+          <div className="flex flex-wrap items-center gap-x-6 gap-y-4 text-sm text-neutral-900">
+            <Link to="/work/editing/mg-1" className="inline-flex items-center gap-2 underline underline-offset-8">View motion reel <Play size={15} aria-hidden="true" /></Link>
+            <a href="#selected-heading" className="inline-flex items-center gap-2 underline underline-offset-8">Explore selected work <ArrowRight size={16} aria-hidden="true" /></a>
+            <a href="#contact" className="inline-flex items-center gap-2 underline underline-offset-8">Discuss a project <ArrowRight size={16} aria-hidden="true" /></a>
+          </div>
         </div>
       </section>
       <section className="bg-neutral-950 px-8 md:px-12 lg:px-20 py-12 md:py-16" aria-labelledby="selected-heading">
@@ -49,7 +55,7 @@ export default function HomePage() {
                   : <div className="h-full flex flex-col justify-center p-8 md:p-12 bg-[#292333]"><p className="text-xs tracking-[0.2em] uppercase text-neutral-300 mb-5">Editing &amp; motion · Album playlist</p><p className="font-serif text-4xl md:text-5xl text-white leading-tight">Christina Perri<br /><span className="text-[#d6bfaa]">Lullaby Album</span></p></div>}
                 {project.type !== 'image' && <div className="absolute bottom-5 right-5 rounded-full bg-white text-neutral-900 p-4"><Play size={20} aria-hidden="true" /></div>}
               </div>
-              <div className="flex items-start justify-between gap-4 mt-4"><div><p className="text-[11px] uppercase tracking-[0.15em] text-neutral-400 mb-2">{DISCIPLINE_LABELS[project.discipline]} · {project.year}</p><h3 className="font-serif text-2xl text-white group-hover:underline underline-offset-4">{project.title}</h3></div><ArrowRight size={18} className="text-neutral-400 mt-7 shrink-0" /></div>
+              <div className="flex items-start justify-between gap-4 mt-4"><div><p className="text-[11px] uppercase tracking-[0.15em] text-neutral-400 mb-2">{DISCIPLINE_LABELS[project.discipline]} · {project.year}</p><h3 className="font-serif text-2xl text-white group-hover:underline underline-offset-4">{project.title}</h3><p className="mt-2 text-sm leading-relaxed text-neutral-400 line-clamp-2">{project.brief}</p></div><ArrowRight size={18} className="text-neutral-400 mt-7 shrink-0" aria-hidden="true" /></div>
             </Link>
           ))}
         </div>
