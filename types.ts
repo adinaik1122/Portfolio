@@ -29,8 +29,9 @@ export interface Project {
   brief: string;
   tools: string[];
   // Video projects
-  type: 'video' | 'playlist' | 'image';
+  type: 'video' | 'playlist' | 'image' | 'video-collection';
   videoId?: string;
+  videos?: { title: string; src: string; poster: string }[];
   // Image/design projects
   images?: string[];
   imageCaptions?: string[];

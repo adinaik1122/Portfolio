@@ -2,12 +2,13 @@ import React, { useEffect, lazy, Suspense } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { ArrowRight, Play } from 'lucide-react';
 import { HERO_DATA, PROJECTS } from '../constants';
+import { WHATSAPP_URL } from '../constants/contact';
 import { DISCIPLINE_LABELS } from '../types';
 import YTThumbnail from '../components/YTThumbnail';
 import { usePageMeta } from '../hooks/usePageMeta';
 const About = lazy(() => import('../components/About'));
 const Contact = lazy(() => import('../components/Contact'));
-const selectedIds = ['mg-1', 'mg-2', 'comp-1', 'ayurexim', 'festive'];
+const selectedIds = ['mg-1', 'ayurexim-reels', 'mg-2', 'comp-1', 'ayurexim', 'festive'];
 const selected = selectedIds.flatMap(id => PROJECTS.find(p => p.id === id) ?? []);
 
 export default function HomePage() {
@@ -37,7 +38,7 @@ export default function HomePage() {
           <div className="flex flex-wrap items-center gap-x-6 gap-y-4 text-sm text-neutral-900">
             <Link to="/work/editing/mg-1" className="inline-flex items-center gap-2 underline underline-offset-8">View motion reel <Play size={15} aria-hidden="true" /></Link>
             <a href="#selected-heading" className="inline-flex items-center gap-2 underline underline-offset-8">Explore selected work <ArrowRight size={16} aria-hidden="true" /></a>
-            <a href="#contact" className="inline-flex items-center gap-2 underline underline-offset-8">Discuss a project <ArrowRight size={16} aria-hidden="true" /></a>
+            <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 underline underline-offset-8">Discuss a project on WhatsApp <ArrowRight size={16} aria-hidden="true" /></a>
           </div>
         </div>
       </section>
@@ -50,7 +51,8 @@ export default function HomePage() {
           {selected.map(project => (
             <Link key={project.id} to={`/work/${project.discipline}/${project.id}`} className="group block min-w-0">
               <div className="relative aspect-[4/3] overflow-hidden bg-neutral-900">
-                {project.type === 'image' ? <img src={project.images?.[0]} alt={project.imageCaptions?.[0] ?? project.title} loading="lazy" className="w-full h-full object-contain bg-neutral-100 transition-transform duration-500 group-hover:scale-[1.02]" />
+                {project.type === 'video-collection' && project.videos?.[0] ? <img src={project.videos[0].poster} alt="" loading="lazy" className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-[1.02]" />
+                  : project.type === 'image' ? <img src={project.images?.[0]} alt={project.imageCaptions?.[0] ?? project.title} loading="lazy" className="w-full h-full object-contain bg-neutral-100 transition-transform duration-500 group-hover:scale-[1.02]" />
                   : project.type === 'video' && project.videoId ? <YTThumbnail videoId={project.videoId} className="w-full h-full object-cover" />
                   : <div className="h-full flex flex-col justify-center p-8 md:p-12 bg-[#292333]"><p className="text-xs tracking-[0.2em] uppercase text-neutral-300 mb-5">Editing &amp; motion · Album playlist</p><p className="font-serif text-4xl md:text-5xl text-white leading-tight">Christina Perri<br /><span className="text-[#d6bfaa]">Lullaby Album</span></p></div>}
                 {project.type !== 'image' && <div className="absolute bottom-5 right-5 rounded-full bg-white text-neutral-900 p-4"><Play size={20} aria-hidden="true" /></div>}

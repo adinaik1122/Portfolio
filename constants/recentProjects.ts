@@ -2,6 +2,26 @@ import { Project } from '../types';
 
 export const RECENT_PROJECTS: Project[] = [
   {
+    id: 'ayurexim-reels',
+    title: 'Ayurexim — Product & Brand Reels',
+    discipline: 'editing',
+    year: 2026,
+    client: 'Ayurexim',
+    brief: 'A collection of eight short videos for Ayurexim, covering product presentation, brand storytelling, customer review, and seasonal campaign content.',
+    tools: [],
+    type: 'video-collection',
+    videos: [
+      { title: 'Kumkumadi Face Serum', src: '/videos/ayurexim/01.mp4', poster: '/videos/ayurexim/01.jpg' },
+      { title: 'Customer Review', src: '/videos/ayurexim/02.mp4', poster: '/videos/ayurexim/02.jpg' },
+      { title: 'Under Eye Cream', src: '/videos/ayurexim/03.mp4', poster: '/videos/ayurexim/03.jpg' },
+      { title: 'Ayurexim Brand', src: '/videos/ayurexim/04.mp4', poster: '/videos/ayurexim/04.jpg' },
+      { title: 'The Heart of Hibiscus', src: '/videos/ayurexim/05.mp4', poster: '/videos/ayurexim/05.jpg' },
+      { title: 'Kumkumadi Face Scrub', src: '/videos/ayurexim/06.mp4', poster: '/videos/ayurexim/06.jpg' },
+      { title: 'Kumkumadi Face Gel', src: '/videos/ayurexim/07.mp4', poster: '/videos/ayurexim/07.jpg' },
+      { title: 'Abhyanga Ubtan Scrub', src: '/videos/ayurexim/08.mp4', poster: '/videos/ayurexim/08.jpg' },
+    ],
+  },
+  {
     "id": "ayurexim",
     "title": "Ayurexim — Packaging & Product Presentation",
     "discipline": "branding",

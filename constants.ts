@@ -1,7 +1,8 @@
 import { RECENT_PROJECTS } from './constants/recentProjects';
 import { Project, ExperienceItem, Skill } from './types';
 import { SocialLink } from './types/components';
-import { Mail, Phone, Video } from 'lucide-react';
+import { MessageCircle, Video } from 'lucide-react';
+import { WHATSAPP_URL } from './constants/contact';
 
 export const HERO_DATA = {
   name: "Aditya Naik",
@@ -248,34 +249,6 @@ export const PROJECTS: Project[] = [
       { step: 'Result', text: 'Personal project that sharpened my documentary storytelling and colour grading skills.' },
     ],
   },
-  {
-    id: 'travel-2',
-    title: 'Travel Documentary — II',
-    discipline: 'editing',
-    year: 2022,
-    brief: 'Second travel short with a focus on time-lapse sequences and ambient sound design.',
-    tools: ['Premiere Pro', 'Lumetri'],
-    type: 'video',
-    videoId: '5GA_6uRFdIM',
-  },
-
-  // ── Personal ──────────────────────────────────────────────────────────────
-  {
-    id: 'personal-1',
-    title: 'BELIEVER | Captain America Version',
-    discipline: 'editing',
-    year: 2022,
-    brief: 'Personal passion project exploring experimental editing techniques — non-linear structure, jump cuts, and abstract visual metaphors.',
-    tools: ['Premiere Pro', 'After Effects'],
-    type: 'video',
-    videoId: 'bxhsznQp8HQ',
-    process: [
-      { step: 'Brief', text: 'A self-directed project to experiment with non-conventional narrative structure.' },
-      { step: 'Approach', text: 'Loosely structured around a central visual motif; used intentional jump cuts and colour contrast to create disorientation.' },
-      { step: 'Tools', text: 'Premiere Pro; After Effects for glitch effects and texture overlays.' },
-      { step: 'Result', text: 'A piece outside client work that pushed my creative boundaries.' },
-    ],
-  },
 ];
 
 export const EXPERIENCE_DATA: ExperienceItem[] = [
@@ -342,15 +315,9 @@ export const LANGUAGES_DATA: string[] = ['Hindi', 'English', 'Spanish', 'Marathi
 
 export const SOCIAL_LINKS: SocialLink[] = [
   {
-    label: 'Email',
-    href: 'mailto:adityanaik817@gmail.com',
-    icon: Mail,
-    value: 'adityanaik817@gmail.com',
-  },
-  {
-    label: 'Phone',
-    href: 'tel:+919762659846',
-    icon: Phone,
+    label: 'WhatsApp',
+    href: WHATSAPP_URL,
+    icon: MessageCircle,
     value: '+91 9762659846',
   },
   {

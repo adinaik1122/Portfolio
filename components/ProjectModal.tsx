@@ -4,7 +4,11 @@ import { X, ArrowLeft, ArrowRight } from 'lucide-react';
 import { Project, DISCIPLINE_LABELS } from '../types';
 import { PROJECTS } from '../constants';
 
-function MediaEmbed({ project }: { project: Project }) {
+function MediaEmbed({ project, selectedVideo }: { project: Project; selectedVideo: number }) {
+  if (project.type === 'video-collection' && project.videos?.[selectedVideo]) {
+    const video = project.videos[selectedVideo];
+    return <video key={video.src} src={video.src} poster={video.poster} controls playsInline preload="none" className="absolute inset-0 w-full h-full object-contain bg-neutral-950" aria-label={video.title} />;
+  }
   if (project.type === 'playlist' && project.videoId) {
     return (
       <iframe
@@ -53,6 +57,8 @@ interface Props {
 
 export default function ProjectModal({ project, onClose, onNavigate }: Props) {
   const dialogRef = useRef<HTMLDivElement>(null);
+  const [selectedVideo, setSelectedVideo] = React.useState(0);
+  useEffect(() => { setSelectedVideo(0); }, [project.id]);
   useEffect(() => {
     const previous = document.activeElement as HTMLElement | null;
     const dialog = dialogRef.current;
@@ -123,8 +129,8 @@ export default function ProjectModal({ project, onClose, onNavigate }: Props) {
         <div className="overflow-y-auto flex-1 overscroll-contain">
 
           {/* Video / Image */}
-          <div className="relative w-full bg-neutral-950 flex-shrink-0" style={{ paddingBottom: '56.25%' }}>
-            <MediaEmbed project={project} />
+          <div className={`relative w-full bg-neutral-950 flex-shrink-0 ${project.type === 'video-collection' ? 'h-[65dvh] max-h-[680px]' : ''}`} style={project.type === 'video-collection' ? undefined : { paddingBottom: '56.25%' }}>
+            <MediaEmbed project={project} selectedVideo={selectedVideo} />
             {/* Close — always visible */}
             <button
               onClick={onClose}
@@ -136,6 +142,20 @@ export default function ProjectModal({ project, onClose, onNavigate }: Props) {
               <X size={14} />
             </button>
           </div>
+
+          {project.type === 'video-collection' && project.videos && (
+            <div className="px-5 py-4 bg-neutral-950 text-white" role="group" aria-label="Choose an Ayurexim reel">
+              <p className="mb-3 text-xs uppercase tracking-widest text-neutral-400">Select a reel · {selectedVideo + 1} of {project.videos.length}</p>
+              <div className="flex gap-2 overflow-x-auto pb-2">
+                {project.videos.map((video, index) => (
+                  <button key={video.src} type="button" onClick={() => setSelectedVideo(index)} aria-pressed={selectedVideo === index}
+                    className={`shrink-0 px-3 py-2 min-h-11 text-xs border ${selectedVideo === index ? 'border-white bg-white text-neutral-950' : 'border-neutral-600 text-neutral-200 hover:border-white'}`}>
+                    {video.title}
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
 
           {project.type === 'image' && project.imageCaptions?.[0] && (
             <p className="px-5 py-3 text-xs text-neutral-500 bg-neutral-50">{project.imageCaptions[0]}</p>
