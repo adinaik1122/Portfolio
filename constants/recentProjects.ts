@@ -2,6 +2,18 @@ import { Project } from '../types';
 
 export const RECENT_PROJECTS: Project[] = [
   {
+    id: 'ayurexim-glow-ritual',
+    title: 'Ayurexim — Ayurvedic Glow Ritual',
+    discipline: 'editing',
+    year: 2026,
+    client: 'Ayurexim',
+    brief: 'A vertical product reel featuring a festive arrangement, oil pouring, and close-up shots of Ayurexim products.',
+    tools: [],
+    type: 'video',
+    videoSrc: '/videos/ayurexim/08.mp4',
+    poster: '/videos/ayurexim/08.jpg',
+  },
+  {
     "id": "ayurexim",
     "title": "Ayurexim — Packaging & Product Presentation",
     "discipline": "branding",

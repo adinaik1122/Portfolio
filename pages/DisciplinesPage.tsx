@@ -20,6 +20,7 @@ const DISCIPLINES: {
 function getThumb(slug: Discipline): string | null {
   const project = PROJECTS.find(p => p.discipline === slug);
   if (!project) return null;
+  if (project.poster) return project.poster;
   if (project.type === 'video' && project.videoId)
     return `https://img.youtube.com/vi/${project.videoId}/maxresdefault.jpg`;
   if (project.images?.[0]) return project.images[0];

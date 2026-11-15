@@ -5,6 +5,9 @@ import { Project, DISCIPLINE_LABELS } from '../types';
 import { PROJECTS } from '../constants';
 
 function MediaEmbed({ project }: { project: Project }) {
+  if (project.type === 'video' && project.videoSrc) {
+    return <video src={project.videoSrc} poster={project.poster} controls playsInline preload="none" className="absolute inset-0 w-full h-full object-contain bg-neutral-950" aria-label={project.title} />;
+  }
   if (project.type === 'playlist' && project.videoId) {
     return (
       <iframe
@@ -123,7 +126,7 @@ export default function ProjectModal({ project, onClose, onNavigate }: Props) {
         <div className="overflow-y-auto flex-1 overscroll-contain">
 
           {/* Video / Image */}
-          <div className="relative w-full bg-neutral-950 flex-shrink-0" style={{ paddingBottom: '56.25%' }}>
+          <div className={`relative w-full bg-neutral-950 flex-shrink-0 ${project.videoSrc ? 'h-[65dvh] max-h-[680px]' : ''}`} style={project.videoSrc ? undefined : { paddingBottom: '56.25%' }}>
             <MediaEmbed project={project} />
             {/* Close — always visible */}
             <button

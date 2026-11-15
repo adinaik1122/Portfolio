@@ -7,7 +7,7 @@ import YTThumbnail from '../components/YTThumbnail';
 import { usePageMeta } from '../hooks/usePageMeta';
 const About = lazy(() => import('../components/About'));
 const Contact = lazy(() => import('../components/Contact'));
-const selectedIds = ['mg-1', 'mg-2', 'comp-1', 'ayurexim', 'festive'];
+const selectedIds = ['ayurexim-glow-ritual', 'mg-1', 'mg-2', 'comp-1', 'ayurexim', 'festive'];
 const selected = selectedIds.flatMap(id => PROJECTS.find(p => p.id === id) ?? []);
 
 export default function HomePage() {
@@ -50,7 +50,8 @@ export default function HomePage() {
           {selected.map(project => (
             <Link key={project.id} to={`/work/${project.discipline}/${project.id}`} className="group block min-w-0">
               <div className="relative aspect-[4/3] overflow-hidden bg-neutral-900">
-                {project.type === 'image' ? <img src={project.images?.[0]} alt={project.imageCaptions?.[0] ?? project.title} loading="lazy" className="w-full h-full object-contain bg-neutral-100 transition-transform duration-500 group-hover:scale-[1.02]" />
+                {project.videoSrc && project.poster ? <img src={project.poster} alt="" loading="lazy" className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-[1.02]" />
+                  : project.type === 'image' ? <img src={project.images?.[0]} alt={project.imageCaptions?.[0] ?? project.title} loading="lazy" className="w-full h-full object-contain bg-neutral-100 transition-transform duration-500 group-hover:scale-[1.02]" />
                   : project.type === 'video' && project.videoId ? <YTThumbnail videoId={project.videoId} className="w-full h-full object-cover" />
                   : <div className="h-full flex flex-col justify-center p-8 md:p-12 bg-[#292333]"><p className="text-xs tracking-[0.2em] uppercase text-neutral-300 mb-5">Editing &amp; motion · Album playlist</p><p className="font-serif text-4xl md:text-5xl text-white leading-tight">Christina Perri<br /><span className="text-[#d6bfaa]">Lullaby Album</span></p></div>}
                 {project.type !== 'image' && <div className="absolute bottom-5 right-5 rounded-full bg-white text-neutral-900 p-4"><Play size={20} aria-hidden="true" /></div>}

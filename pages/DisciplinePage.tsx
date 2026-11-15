@@ -87,7 +87,8 @@ function WorkCard({ project, onClick }: { project: Project; onClick: () => void 
   return (
     <button type="button" onClick={onClick} aria-label={`View project: ${project.title}`} className="group min-w-0 w-full text-left border border-neutral-800 bg-neutral-900">
       <div className={`relative overflow-hidden ${project.type === 'image' ? 'aspect-[4/3] bg-neutral-100' : 'aspect-video bg-neutral-800'}`}>
-        {project.type === 'image' ? <img src={project.images?.[0]} alt={project.imageCaptions?.[0] ?? project.title} loading="lazy" className="w-full h-full object-contain" />
+        {project.videoSrc && project.poster ? <img src={project.poster} alt="" loading="lazy" className="w-full h-full object-cover" />
+          : project.type === 'image' ? <img src={project.images?.[0]} alt={project.imageCaptions?.[0] ?? project.title} loading="lazy" className="w-full h-full object-contain" />
           : project.type === 'video' && project.videoId ? <YTThumbnail videoId={project.videoId} className="w-full h-full object-cover" />
           : <div className="h-full flex items-center justify-center p-8 bg-[#292333]"><p className="font-serif text-3xl text-white text-center">{project.title}</p></div>}
         {project.type !== 'image' && <span className="absolute bottom-4 right-4 p-3 bg-white text-neutral-900 rounded-full"><Play size={18} aria-hidden="true" /></span>}

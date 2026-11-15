@@ -31,6 +31,8 @@ export interface Project {
   // Video projects
   type: 'video' | 'playlist' | 'image';
   videoId?: string;
+  videoSrc?: string;
+  poster?: string;
   // Image/design projects
   images?: string[];
   imageCaptions?: string[];
