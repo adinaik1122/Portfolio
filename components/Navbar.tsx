@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
+import { WHATSAPP_URL } from '../constants/contact';
 
 const MENU_ITEMS = [
   { num: '01', label: 'Work', href: '/work' },
   { num: '02', label: 'About', href: '/#about' },
-  { num: '03', label: 'Contact', href: '/#contact' },
+  { num: '03', label: 'Contact', href: WHATSAPP_URL },
 ];
 const SECTION_IDS = ['hero', 'about', 'contact'];
 
@@ -113,7 +114,7 @@ export default function Navbar() {
           </Link>
 
           <div className="hidden md:flex items-center gap-8">
-            {MENU_ITEMS.map(item => <a key={item.href} href={item.href} onClick={e => handleClick(e, item.href)} className="text-sm text-neutral-700 hover:text-neutral-950">{item.label}</a>)}
+            {MENU_ITEMS.map(item => <a key={item.href} href={item.href} onClick={e => handleClick(e, item.href)} {...(item.href.startsWith('https:') ? { target: '_blank', rel: 'noopener noreferrer' } : {})} className="text-sm text-neutral-700 hover:text-neutral-950">{item.label}</a>)}
           </div>
           {/* Hamburger button */}
           <button
@@ -172,6 +173,7 @@ export default function Navbar() {
                     <a
                       href={item.href}
                       onClick={e => handleClick(e, item.href)}
+                      {...(item.href.startsWith('https:') ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
                       className={`group flex items-baseline gap-5 md:gap-8 py-3 border-b border-white/5 hover:border-white/20 transition-colors duration-300 ${
                         isActive(item.href) ? 'border-white/20' : ''
                       }`}
@@ -215,8 +217,9 @@ export default function Navbar() {
                 Available for work
               </div>
               <a
-                href="/#contact"
-                onClick={e => handleClick(e, '/#contact')}
+                href={WHATSAPP_URL}
+                target="_blank"
+                rel="noopener noreferrer"
                 className="text-[11px] uppercase tracking-[0.2em] text-neutral-500 hover:text-[#C4922A] transition-colors duration-300"
               >
                 Hire me →

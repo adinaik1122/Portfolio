@@ -1,5 +1,9 @@
 # Recent work inventory — 13 November 2026
 
+## Update — 15 November 2026
+
+Eight Ayurexim exports from `D:/project/Ayurexim/04-Marketing/Video-Projects/YouTube Uploads/` are grouped in one local Video Editing case study. The source exports remain untouched; the site uses smaller MP4 copies and posters. Exact personal contribution and publishing credits remain on the factual reconciliation checklist. Travel Documentary II and BELIEVER were removed from the local project list at the owner's request.
+
 ## Added to the local portfolio
 Six 2026 case studies, grouped by brand rather than individual variant:
 - Ayurexim: skincare duo and hair-serum product mockups. Existing label-production sources corroborate packaging work. Mockups are explicitly captioned; they are not presented as photography.

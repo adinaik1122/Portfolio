@@ -3,6 +3,7 @@ import { Link, useParams, useNavigate } from 'react-router-dom';
 import { AnimatePresence } from 'framer-motion';
 import { ArrowLeft, ArrowRight, Play } from 'lucide-react';
 import { PROJECTS } from '../constants';
+import { WHATSAPP_URL } from '../constants/contact';
 import { Discipline, DISCIPLINE_LABELS, Project } from '../types';
 import ProjectModal from '../components/ProjectModal';
 import YTThumbnail from '../components/YTThumbnail';
@@ -87,7 +88,8 @@ function WorkCard({ project, onClick }: { project: Project; onClick: () => void 
   return (
     <button type="button" onClick={onClick} aria-label={`View project: ${project.title}`} className="group min-w-0 w-full text-left border border-neutral-800 bg-neutral-900">
       <div className={`relative overflow-hidden ${project.type === 'image' ? 'aspect-[4/3] bg-neutral-100' : 'aspect-video bg-neutral-800'}`}>
-        {project.type === 'image' ? <img src={project.images?.[0]} alt={project.imageCaptions?.[0] ?? project.title} loading="lazy" className="w-full h-full object-contain" />
+        {project.type === 'video-collection' && project.videos?.[0] ? <img src={project.videos[0].poster} alt="" loading="lazy" className="w-full h-full object-cover" />
+          : project.type === 'image' ? <img src={project.images?.[0]} alt={project.imageCaptions?.[0] ?? project.title} loading="lazy" className="w-full h-full object-contain" />
           : project.type === 'video' && project.videoId ? <YTThumbnail videoId={project.videoId} className="w-full h-full object-cover" />
           : <div className="h-full flex items-center justify-center p-8 bg-[#292333]"><p className="font-serif text-3xl text-white text-center">{project.title}</p></div>}
         {project.type !== 'image' && <span className="absolute bottom-4 right-4 p-3 bg-white text-neutral-900 rounded-full"><Play size={18} aria-hidden="true" /></span>}
@@ -96,7 +98,7 @@ function WorkCard({ project, onClick }: { project: Project; onClick: () => void 
         <p className="text-[11px] uppercase tracking-[0.15em] text-neutral-400 mb-3">{project.client ?? DISCIPLINE_LABELS[project.discipline]} · {project.year}</p>
         <h2 className="font-serif text-2xl text-white group-hover:underline underline-offset-4">{project.title}</h2>
         <p className="mt-3 text-sm leading-relaxed text-neutral-400 line-clamp-2">{project.brief}</p>
-        <p className="mt-5 text-xs text-neutral-300">{project.type === 'image' ? 'View project' : project.type === 'playlist' ? 'Watch playlist' : 'Watch video'} &rarr;</p>
+        <p className="mt-5 text-xs text-neutral-300">{project.type === 'image' ? 'View project' : project.type === 'playlist' ? 'Watch playlist' : project.type === 'video-collection' ? 'Watch reels' : 'Watch video'} &rarr;</p>
       </div>
     </button>
   );
@@ -120,6 +122,9 @@ export default function DisciplinePage() {
     if (disc === 'motion') navigate(`/work/editing${id ? '/' + id : ''}`, { replace: true });
     else if (!['editing', 'branding', 'vfx'].includes(disc)) navigate('/work', { replace: true });
   }, [disc, id, navigate]);
+  useEffect(() => {
+    if (id && !modalProject && ['editing', 'branding', 'vfx'].includes(disc)) navigate(`/work/${disc}`, { replace: true });
+  }, [disc, id, modalProject, navigate]);
   useEffect(() => { window.scrollTo({ top: 0, behavior: 'instant' }); }, [disc]);
   if (!meta) return null;
   const openProject = (project: Project) => navigate(`/work/${disc}/${project.id}`);
@@ -141,7 +146,7 @@ export default function DisciplinePage() {
         {projects.length > 6 && <button type="button" onClick={() => setShowAll(v => !v)} aria-expanded={showAll} className="mt-8 px-6 py-3 border border-neutral-600 text-sm hover:bg-neutral-800">{showAll ? 'Show fewer projects' : `View all ${projects.length} projects`}</button>}
       </section>
       <div className="px-8 md:px-12 lg:px-20 py-10 border-t border-neutral-800 flex flex-wrap items-center justify-between gap-5">
-        <p className="font-serif text-2xl">Have a project in mind?</p><Link to="/#contact" className="inline-flex items-center gap-3 text-sm text-neutral-300">Let's talk <ArrowRight size={16} /></Link>
+        <p className="font-serif text-2xl">Have a project in mind?</p><a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-3 text-sm text-neutral-300">Let's talk on WhatsApp <ArrowRight size={16} /></a>
       </div>
       <AnimatePresence>{modalProject && <ProjectModal project={modalProject} onClose={() => navigate(`/work/${disc}`, { replace: true })} onNavigate={project => navigate(`/work/${disc}/${project.id}`, { replace: true })} />}</AnimatePresence>
     </div>

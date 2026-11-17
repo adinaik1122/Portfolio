@@ -1,7 +1,8 @@
 import { RECENT_PROJECTS } from './constants/recentProjects';
 import { Project, ExperienceItem, Skill } from './types';
 import { SocialLink } from './types/components';
-import { Mail, Phone, Video } from 'lucide-react';
+import { MessageCircle, Video } from 'lucide-react';
+import { WHATSAPP_URL } from './constants/contact';
 
 export const HERO_DATA = {
   name: "Aditya Naik",
@@ -314,15 +315,9 @@ export const LANGUAGES_DATA: string[] = ['Hindi', 'English', 'Spanish', 'Marathi
 
 export const SOCIAL_LINKS: SocialLink[] = [
   {
-    label: 'Email',
-    href: 'mailto:adityanaik817@gmail.com',
-    icon: Mail,
-    value: 'adityanaik817@gmail.com',
-  },
-  {
-    label: 'Phone',
-    href: 'tel:+919762659846',
-    icon: Phone,
+    label: 'WhatsApp',
+    href: WHATSAPP_URL,
+    icon: MessageCircle,
     value: '+91 9762659846',
   },
   {

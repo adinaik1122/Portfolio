@@ -1,144 +1,87 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-import { motion } from 'framer-motion';
-import { ArrowRight } from 'lucide-react';
+import { Link, useSearchParams } from 'react-router-dom';
+import { ArrowUpRight, Play } from 'lucide-react';
 import { PROJECTS } from '../constants';
-import { Discipline, DISCIPLINE_LABELS } from '../types';
+import { Project } from '../types';
+import YTThumbnail from '../components/YTThumbnail';
 import { usePageMeta } from '../hooks/usePageMeta';
 
-const DISCIPLINES: {
-  slug: Discipline;
-  num: string;
-  description: string;
-  tools: string[];
-}[] = [
-  { slug: 'editing', num: '01', description: 'Video editing for creators, brands, and stories — from long-form films to short social cuts.', tools: ['Premiere Pro', 'After Effects'] },
-  { slug: 'branding', num: '02', description: 'Brand identities and packaging — logos, typography, labels, and print-ready design.', tools: ['Illustrator', 'Photoshop'] },
-  { slug: 'vfx', num: '03', description: 'Compositing, CG integration, keying, roto, and paint for studio and digital productions.', tools: ['Nuke', 'Silhouette', 'After Effects'] },
+type Filter = 'all' | 'editing' | 'motion' | 'vfx' | 'branding';
+const FILTERS: { id: Filter; label: string }[] = [
+  { id: 'all', label: 'All Work' },
+  { id: 'editing', label: 'Video Editing' },
+  { id: 'motion', label: 'Motion Graphics' },
+  { id: 'vfx', label: 'VFX & Compositing' },
+  { id: 'branding', label: 'Branding & Packaging' },
 ];
+const motionIds = new Set(['mg-1', 'mg-2', 'wedding-1', 'wedding-2']);
+const priorityIds = ['mg-1', 'ayurexim-reels', 'mg-2', 'comp-1', 'ayurexim', 'festive'];
+const orderedProjects = [...PROJECTS].sort((a, b) => {
+  const aIndex = priorityIds.indexOf(a.id);
+  const bIndex = priorityIds.indexOf(b.id);
+  if (aIndex !== -1 || bIndex !== -1) return (aIndex === -1 ? Infinity : aIndex) - (bIndex === -1 ? Infinity : bIndex);
+  return b.year - a.year;
+});
 
-function getThumb(slug: Discipline): string | null {
-  const project = PROJECTS.find(p => p.discipline === slug);
-  if (!project) return null;
-  if (project.type === 'video' && project.videoId)
-    return `https://img.youtube.com/vi/${project.videoId}/maxresdefault.jpg`;
-  if (project.images?.[0]) return project.images[0];
-  return null;
+function belongsTo(project: Project, filter: Filter) {
+  if (filter === 'all') return true;
+  if (filter === 'motion') return motionIds.has(project.id);
+  if (filter === 'editing') return project.discipline === 'editing' && !motionIds.has(project.id);
+  return project.discipline === filter;
+}
+
+function ProjectCard({ project }: { project: Project }) {
+  const category = motionIds.has(project.id) ? 'Motion Graphics' : project.discipline === 'vfx' ? 'VFX & Compositing' : project.discipline === 'branding' ? 'Branding & Packaging' : 'Video Editing';
+  return (
+    <Link to={`/work/${project.discipline}/${project.id}`} className="group block min-w-0 focus-visible:outline-offset-4">
+      <div className="relative aspect-[4/3] overflow-hidden bg-neutral-800">
+        {project.type === 'video-collection' && project.videos?.[0] ? (
+          <img src={project.videos[0].poster} alt="" loading="lazy" className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-[1.02]" />
+        ) : project.type === 'image' && project.images?.[0] ? (
+          <img src={project.images[0]} alt={project.imageCaptions?.[0] ?? project.title} loading="lazy" className="w-full h-full object-contain bg-neutral-100 transition-transform duration-300 group-hover:scale-[1.02]" />
+        ) : project.type === 'video' && project.videoId ? (
+          <YTThumbnail videoId={project.videoId} alt="" className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-[1.02]" />
+        ) : (
+          <div className="w-full h-full flex items-center justify-center p-8 bg-[#292333]"><span className="font-serif text-3xl md:text-4xl text-center text-white">{project.title}</span></div>
+        )}
+        {project.type !== 'image' && <span className="absolute bottom-4 right-4 p-3 rounded-full bg-white text-neutral-900" aria-hidden="true"><Play size={18} /></span>}
+      </div>
+      <div className="pt-4">
+        <p className="text-[11px] uppercase tracking-[0.16em] text-neutral-400">{category} · {project.year}</p>
+        <div className="mt-2 flex items-start justify-between gap-3"><h2 className="font-serif text-2xl md:text-3xl leading-tight text-white group-hover:underline underline-offset-4">{project.title}</h2><ArrowUpRight size={20} className="shrink-0 text-neutral-400" aria-hidden="true" /></div>
+        <p className="mt-2 text-sm leading-relaxed text-neutral-400 line-clamp-2">{project.brief}</p>
+        <p className="mt-3 text-xs text-neutral-300">View project <span aria-hidden="true">→</span></p>
+      </div>
+    </Link>
+  );
 }
 
 export default function DisciplinesPage() {
   usePageMeta('Selected Work | Aditya Naik', 'Browse video editing, motion graphics, VFX compositing, branding, and packaging projects by Aditya Naik.', '/work');
-  const totalProjects = PROJECTS.length;
-
+  const [searchParams, setSearchParams] = useSearchParams();
+  const requested = searchParams.get('filter');
+  const active: Filter = FILTERS.some(item => item.id === requested) ? requested as Filter : 'all';
+  const visible = orderedProjects.filter(project => belongsTo(project, active));
   return (
-    <div className="min-h-screen bg-neutral-950 pt-16">
-
-      {/* Header */}
-      <div className="px-8 md:px-12 lg:px-20 pt-10 pb-12 border-b border-neutral-800">
-        <p className="text-[10px] uppercase tracking-[0.35em] text-neutral-500 mb-3">
-          Selected Work
-        </p>
-        <div className="flex items-end justify-between gap-6">
-          <h1 className="font-serif text-4xl sm:text-5xl md:text-6xl text-white">
-            Work
-          </h1>
-          <p className="text-neutral-400 text-sm hidden sm:block text-right leading-relaxed">
-            {totalProjects} projects across<br />3 disciplines
-          </p>
+    <div className="min-h-screen bg-neutral-950 text-white pt-16">
+      <header className="px-6 sm:px-8 md:px-12 lg:px-20 pt-12 md:pt-16 pb-10 border-b border-neutral-800">
+        <p className="text-[11px] uppercase tracking-[0.25em] text-neutral-400 mb-4">Selected work</p>
+        <h1 className="font-serif text-5xl sm:text-6xl md:text-7xl">Work</h1>
+        <p className="mt-5 max-w-xl text-neutral-400 leading-relaxed">Editing and motion lead the selection, followed by VFX, branding, and packaging.</p>
+      </header>
+      <section className="px-6 sm:px-8 md:px-12 lg:px-20 py-8 md:py-12" aria-label="Portfolio projects">
+        <div className="flex flex-wrap gap-2 mb-8 md:mb-10" role="group" aria-label="Filter projects">
+          {FILTERS.filter(item => orderedProjects.some(project => belongsTo(project, item.id))).map(item => (
+            <button key={item.id} type="button" aria-pressed={active === item.id} aria-controls="project-grid"
+              onClick={() => setSearchParams(item.id === 'all' ? {} : { filter: item.id })}
+              className={`min-h-11 px-4 py-2 text-sm border transition-colors ${active === item.id ? 'bg-white text-neutral-950 border-white' : 'text-neutral-300 border-neutral-700 hover:border-neutral-300 hover:text-white'}`}>
+              {item.label}
+            </button>
+          ))}
         </div>
-      </div>
-
-      {/* Discipline grid */}
-      <div className="px-8 md:px-12 lg:px-20 py-6">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-px bg-neutral-800">
-          {DISCIPLINES.map((d, i) => {
-            const count = PROJECTS.filter(p => p.discipline === d.slug).length;
-            const isEmpty = count === 0;
-            const thumb = getThumb(d.slug);
-
-            return (
-              <motion.div
-                key={d.slug}
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.4, delay: i * 0.07 }}
-              >
-                <Link
-                  to={`/work/${d.slug}`}
-                  className={`group block bg-neutral-950 p-8 md:p-10 h-full relative overflow-hidden transition-colors duration-300 ${
-                    'hover:bg-neutral-900/70'
-                  }`}
-                >
-                  {/* Thumbnail background — very subtle */}
-                  {thumb && (
-                    <img
-                      src={thumb}
-                      alt=""
-                      className="absolute inset-0 w-full h-full object-cover opacity-[0.07] group-hover:opacity-[0.14] transition-opacity duration-500 select-none pointer-events-none"
-                      draggable={false}
-                    />
-                  )}
-
-                  {/* Gold sweep on hover */}
-                  {!isEmpty && (
-                    <div
-                      className="absolute top-0 left-0 h-[2px] w-0 group-hover:w-full transition-all duration-500 ease-out"
-                      style={{ background: '#C4922A' }}
-                    />
-                  )}
-
-                  <div className={`relative z-10 h-full flex flex-col `}>
-                    <div className="flex items-start justify-between mb-5">
-                      <span className={`font-mono text-[11px] transition-colors duration-300 ${
-                        isEmpty ? 'text-neutral-400' : 'text-neutral-400 group-hover:text-[#C4922A]'
-                      }`}>
-                        {d.num}
-                      </span>
-                      {!isEmpty && (
-                        <ArrowRight
-                          size={14}
-                          className="text-neutral-400 group-hover:text-[#C4922A] -translate-x-1 group-hover:translate-x-0 opacity-0 group-hover:opacity-100 transition-all duration-300"
-                        />
-                      )}
-                    </div>
-
-                    <h2 className={`font-serif text-2xl sm:text-3xl leading-tight mb-4 transition-colors duration-300 ${
-                      'text-neutral-200 group-hover:text-white'
-                    }`}>
-                      {DISCIPLINE_LABELS[d.slug]}
-                    </h2>
-
-                    <p className={`text-sm leading-relaxed mb-6 transition-colors duration-300 ${
-                      'text-neutral-400'
-                    }`}>
-                      {d.description}
-                    </p>
-
-                    <div className="flex flex-wrap gap-1.5 mb-8">
-                      {d.tools.map(t => (
-                        <span
-                          key={t}
-                          className="text-[9px] uppercase tracking-[0.12em] text-neutral-400 border border-neutral-800 px-2 py-1"
-                        >
-                          {t}
-                        </span>
-                      ))}
-                    </div>
-
-                    <p className={`mt-auto text-[10px] uppercase tracking-[0.2em] transition-colors duration-300 ${
-                      isEmpty
-                        ? 'text-neutral-400'
-                        : 'text-neutral-400 group-hover:text-neutral-500'
-                    }`}>
-                      {isEmpty ? 'Coming soon' : `${count} project${count !== 1 ? 's' : ''}`}
-                    </p>
-                  </div>
-                </Link>
-              </motion.div>
-            );
-          })}
-        </div>
-      </div>
+        <p className="mb-6 text-xs uppercase tracking-[0.16em] text-neutral-400" aria-live="polite">{visible.length} {visible.length === 1 ? 'project' : 'projects'}</p>
+        <div id="project-grid" className="grid gap-x-7 gap-y-12 sm:grid-cols-2 xl:grid-cols-3">{visible.map(project => <ProjectCard key={project.id} project={project} />)}</div>
+      </section>
     </div>
   );
 }
