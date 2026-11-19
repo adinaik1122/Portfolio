@@ -18,7 +18,9 @@ const DISCIPLINES: {
 ];
 
 function getThumb(slug: Discipline): string | null {
-  const project = PROJECTS.find(p => p.discipline === slug);
+  const project = PROJECTS
+    .filter(p => p.discipline === slug)
+    .sort((a, b) => b.year - a.year)[0];
   if (!project) return null;
   if (project.poster) return project.poster;
   if (project.type === 'video' && project.videoId)

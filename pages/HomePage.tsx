@@ -8,7 +8,9 @@ import { usePageMeta } from '../hooks/usePageMeta';
 const About = lazy(() => import('../components/About'));
 const Contact = lazy(() => import('../components/Contact'));
 const selectedIds = ['ayurexim-glow-ritual', 'mg-1', 'mg-2', 'comp-1', 'ayurexim', 'festive'];
-const selected = selectedIds.flatMap(id => PROJECTS.find(p => p.id === id) ?? []);
+const selected = selectedIds
+  .flatMap(id => PROJECTS.find(p => p.id === id) ?? [])
+  .sort((a, b) => b.year - a.year);
 
 export default function HomePage() {
   usePageMeta('Aditya Naik | Video Editor & Motion Designer', 'Video editing, motion graphics, and visual storytelling by Aditya Naik. Explore selected motion, VFX, branding, and packaging work.', '/');

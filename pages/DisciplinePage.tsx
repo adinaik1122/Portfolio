@@ -109,7 +109,9 @@ export default function DisciplinePage() {
   const [showAll, setShowAll] = useState(false);
   const disc = discipline as Discipline;
   const meta = DISCIPLINE_META[disc];
-  const projects = PROJECTS.filter(p => p.discipline === disc);
+  const projects = PROJECTS
+    .filter(p => p.discipline === disc)
+    .sort((a, b) => b.year - a.year);
   const modalProject = projects.find(p => p.id === id);
   usePageMeta(
     `${modalProject?.title ?? DISCIPLINE_LABELS[disc] ?? 'Work'} | Aditya Naik`,
